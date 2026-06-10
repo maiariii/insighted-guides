@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightED | CLOUD Module Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --primary-blue: #0a4b9c; /* DepEd Navy Blue */
+            --primary-blue-glow: rgba(10, 75, 156, 0.08);
+            --accent-yellow: #fadb5f; /* DepEd Yellow/Gold */
+            --accent-red: #e12b3c; /* DepEd Red */
+            --accent-green: #10b981;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(10, 75, 156, 0.08);
+            --sidebar-width: 320px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--bg-tertiary) transparent;
+        }
+
+        *::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--bg-tertiary);
+            border-radius: 20px;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            background-image: 
+                radial-gradient(circle at 5% 5%, rgba(10, 75, 156, 0.03) 0%, transparent 35%),
+                radial-gradient(circle at 95% 95%, rgba(225, 43, 60, 0.02) 0%, transparent 35%);
+            background-attachment: fixed;
+        }
+
+        /* Blueprint grid helper overlay */
+        .blueprint-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(10, 75, 156, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 75, 156, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Ambient glowing circles */
+        .glowing-orb {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 75, 156, 0.04) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            pointer-events: none;
+            top: 10%;
+            left: 15%;
+            animation: orbMove 35s infinite alternate ease-in-out;
+        }
+
+        .glowing-orb.secondary {
+            background: radial-gradient(circle, rgba(225, 43, 60, 0.035) 0%, transparent 70%);
+            top: 55%;
+            left: 60%;
+            animation: orbMoveSecondary 45s infinite alternate ease-in-out;
+        }
+
+        @keyframes orbMove {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(25vw, 15vh) scale(1.2); }
+        }
+
+        @keyframes orbMoveSecondary {
+            0% { transform: translate(0, 0) scale(1.2); }
+            100% { transform: translate(-25vw, -15vh) scale(0.95); }
+        }
+
+        /* Left Presentation Sidebar Menu */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            position: fixed;
+            left: 40px;
+            top: 40px;
+            bottom: 40px;
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 0 16px 48px rgba(10, 75, 156, 0.03);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(10, 75, 156, 0.02);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar-header:hover {
+            background: rgba(10, 75, 156, 0.06);
+        }
+
+        .sidebar-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .sidebar-header-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .sidebar-sub {
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .slides-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .slide-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .slide-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+        }
+
+        .slide-link.active {
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            border-color: rgba(10, 75, 156, 0.12);
+        }
+
+        .slide-number {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .slide-link.active .slide-number {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Sidebar Footer Banner */
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 0 0 24px 24px;
+            font-size: 10px;
+            color: var(--text-muted);
+            background: rgba(10, 75, 156, 0.01);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Presentation Viewer Main Area */
+        .presentation-viewer {
+            margin-left: calc(var(--sidebar-width) + 40px);
+            flex: 1;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            transition: margin-left 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Landing Mode (Slide 1 Active) */
+        body.landing-mode .sidebar {
+            transform: translateX(-100%);
+        }
+
+        body.landing-mode .presentation-viewer {
+            margin-left: 0;
+            padding: 40px 80px;
+        }
+
+        /* Slide Content Section Container */
+        .slide-canvas {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 16px 48px rgba(10, 75, 156, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            animation: slideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .slide-canvas.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.985) translateY(12px); 
+                filter: blur(4px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+                filter: blur(0);
+            }
+        }
+
+        /* Slide Header & Metadata styling */
+        .slide-header {
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--bg-tertiary);
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .slide-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(10, 75, 156, 0.12);
+        }
+
+        .slide-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -0.75px;
+            line-height: 1.2;
+        }
+
+        .slide-title span {
+            color: var(--accent-red);
+        }
+
+        .slide-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .slide-body {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Custom Slides Layout grids & elements */
+        .slide-cover-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .slide-cover-layout::before {
+            content: '';
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(10, 75, 156, 0.07) 0%, transparent 70%);
+            z-index: -1;
+            top: -20px;
+            animation: pulseGlow 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.85); opacity: 0.7; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .deped-seal {
+            font-size: 44px;
+            filter: drop-shadow(0 4px 12px rgba(10, 75, 156, 0.15));
+        }
+
+        .hero-big-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            color: var(--primary-blue);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            max-width: 800px;
+            margin-bottom: 12px;
+        }
+
+        .hero-big-title span {
+            color: var(--accent-red);
+        }
+
+        .hero-tagline {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+
+        .divider-red-yellow {
+            width: 180px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-blue) 33.3%, var(--accent-yellow) 33.3%, var(--accent-yellow) 66.6%, var(--accent-red) 66.6%, var(--accent-red) 100%);
+            border-radius: 20px;
+            margin: 28px auto 36px;
+        }
+
+        .slide-cover-layout p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.6;
+        }
+
+        /* Split Screen (Left Content / Right Device mock) */
+        .split-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .split-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Phone frame layout container */
+        .phone-gif-container {
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .phone-gif-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Navigation Controls Bottom Bar */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 12px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn.primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.15);
+        }
+
+        .nav-btn.primary:hover {
+            background: #083c7d;
+            box-shadow: 0 8px 20px rgba(10, 75, 156, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .nav-btn.primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle-btn {
+            display: none;
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.2);
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .menu-toggle-btn:hover {
+            background: #083c7d;
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(10, 75, 156, 0.3);
+        }
+
+        .menu-toggle-btn:active {
+            transform: scale(0.95);
+        }
+
+        body.landing-mode .menu-toggle-btn {
+            display: none !important;
+        }
+
+        /* Responsive Breakpoints & Adaptability */
+        @media (max-width: 1024px) {
+            .menu-toggle-btn {
+                display: flex;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                left: 0;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+                border-right: 1px solid var(--glass-border);
+            }
+            .presentation-viewer {
+                margin-left: 0 !important;
+                padding: 24px 20px !important;
+            }
+            body.sidebar-open .sidebar {
+                transform: translateX(0);
+            }
+            body.sidebar-open .blueprint-grid {
+                z-index: 9;
+            }
+            /* Add backdrop overlay when sidebar is open on mobile */
+            body.sidebar-open::after {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.4);
+                backdrop-filter: blur(4px);
+                z-index: 8;
+                pointer-events: auto;
+            }
+            .slide-canvas {
+                padding: 28px 20px !important;
+                margin-top: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 24px !important;
+            }
+            .hero-big-title {
+                font-size: 32px !important;
+            }
+            .slide-subtitle {
+                font-size: 12px !important;
+            }
+            .split-content {
+                grid-template-columns: 1fr !important;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body class="landing-mode">
+
+    <!-- Grid overlay background effect -->
+    <div class="blueprint-grid"></div>
+
+    <!-- Background glowing orbs -->
+    <div class="glowing-orb"></div>
+    <div class="glowing-orb secondary"></div>
+
+    <!-- Mobile Navigation Toggle Button -->
+    <button class="menu-toggle-btn" onclick="toggleSidebar()">
+        ☰ Menu
+    </button>
+
+    <!-- Sidebar Presentation Navigator -->
+    <aside class="sidebar">
+        <div class="sidebar-header" onclick="loadSlide(1)">
+            <img src="InsightED logo.png" class="sidebar-logo" alt="InsightED Logo">
+            <div class="sidebar-header-title">
+                <span class="sidebar-brand">Insight<span style="color: var(--accent-red);">ED</span></span>
+                <span class="sidebar-sub">CLOUD MODULE GUIDE</span>
+            </div>
+        </div>
+
+        <nav class="slides-list">
+            <a class="slide-link" onclick="loadSlide(2)">
+                <span class="slide-number">01</span> School Profile
+            </a>
+            <a class="slide-link" onclick="loadSlide(3)">
+                <span class="slide-number">02</span> Enrollment
+            </a>
+            <a class="slide-link" onclick="loadSlide(4)">
+                <span class="slide-number">03</span> Organized Classes
+            </a>
+            <a class="slide-link" onclick="loadSlide(5)">
+                <span class="slide-number">04</span> Learner Profile
+            </a>
+            <a class="slide-link" onclick="loadSlide(6)">
+                <span class="slide-number">05</span> Shifting & Modality
+            </a>
+            <a class="slide-link" onclick="loadSlide(7)">
+                <span class="slide-number">06</span> School Resources
+            </a>
+            <a class="slide-link" onclick="loadSlide(8)">
+                <span class="slide-number">07</span> Physical Facilities
+            </a>
+            <a class="slide-link" onclick="loadSlide(9)">
+                <span class="slide-number">08</span> School Terrain
+            </a>
+            <a class="slide-link" onclick="loadSlide(10)">
+                <span class="slide-number">09</span> Infrastructure & Safety
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <strong>Department of Education</strong>
+            <span>Republic of the Philippines</span>
+        </div>
+    </aside>
+
+    <!-- Main Presentation Content Area -->
+    <main class="presentation-viewer">
+
+        <!-- Slide 1: Welcome / Cover -->
+        <section class="slide-canvas active" id="slide-1">
+            <div class="slide-cover-layout">
+                <div class="logo-row">
+                    <img src="InsightED logo.png" alt="InsightED Logo" style="height: 80px; width: auto; object-fit: contain;">
+                </div>
+                <h1 class="hero-big-title">Insight<span style="color: var(--accent-red);">ED</span> CLOUD Module</h1>
+                <p class="hero-tagline">InsightED Mobile App</p>
+                <div class="divider-red-yellow"></div>
+                <p>InsightED is a school information dashboard system designed to guide schools in collecting and organizing essential data across all units.</p>
+            </div>
+            <div class="nav-controls" style="justify-content: center;">
+                <button class="nav-btn primary" onclick="nextSlide()">Explore User Guide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 2: School Profile -->
+        <section class="slide-canvas" id="slide-2">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 01</span>
+                <h2 class="slide-title">School <span>Profile</span></h2>
+                <p class="slide-subtitle">Basic identity and official parameters of the school.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Basic Identity:</strong> Record the official 6-digit School ID, the full school name, and the school head's information.</li>
+                                <li><strong>2. Location Coordinates:</strong> Pin the exact location of the school using the mapping tool to establish the coordinates.</li>
+                                <li><strong>3. Classification:</strong> Select the levels of education offered (such as Kinder, Elementary, or Secondary) and the school ownership (public or private status).</li>
+                            </ul>
+                            <div style="background: rgba(10, 75, 156, 0.05); padding: 12px 14px; border-left: 4px solid var(--primary-blue); border-radius: 4px; font-size: 13px; color: var(--text-muted);">
+                                <strong>💡 Core System Rule:</strong> This profile serves as the foundation of the system because all other records are connected to the school profile for identification and reporting.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/profile.gif" alt="School Profile Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 3: Enrollment -->
+        <section class="slide-canvas" id="slide-3">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 02</span>
+                <h2 class="slide-title">School <span>Enrollment</span></h2>
+                <p class="slide-subtitle">Total student registries and special learning support cohorts.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Enrollment Counts:</strong> Record the total number of officially enrolled learners in the school.</li>
+                                <li><strong>2. Special Cohorts:</strong> Identify special learner groups such as those in the ARAL Program (Grades 1–6) or other special programs.</li>
+                                <li><strong>3. Resource Needs:</strong> Use this registry to track special learning needs, supporting planning for teachers, classrooms, and resources, and identifying learners requiring additional academic support.</li>
+                            </ul>
+                            <div style="background: rgba(10, 75, 156, 0.05); padding: 12px 14px; border-left: 4px solid var(--primary-blue); border-radius: 4px; font-size: 13px; color: var(--text-muted);">
+                                <strong>💡 Update Registry:</strong> Ensure all general and special program enrollment figures are updated per school year for accurate monitoring.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/enrollment.gif" alt="Enrollment Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 4: Organized Classes -->
+        <section class="slide-canvas" id="slide-4">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 03</span>
+                <h2 class="slide-title">Organized <span>Classes</span></h2>
+                <p class="slide-subtitle">Classroom distribution and optimal section organization.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Section & Group Setup:</strong> Record how learners are grouped into sections and check the class size per section in the classroom registry.</li>
+                                <li><strong>2. Resource Efficiency:</strong> Balance class sizes to optimize classroom assignments and ensure efficient use of teachers and rooms.</li>
+                                <li><strong>3. Class Types:</strong> Setup multigrade combinations where sections are combined.</li>
+                            </ul>
+                            <div style="background: rgba(10, 75, 156, 0.05); padding: 12px 14px; border-left: 4px solid var(--primary-blue); border-radius: 4px; font-size: 13px; color: var(--text-muted);">
+                                <strong>💡 Registry Goal:</strong> Use this data to monitor for overcrowded or underutilized classes and improve overall learning conditions.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/classes.gif" alt="Classes Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 5: Learner Profile -->
+        <section class="slide-canvas" id="slide-5">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 04</span>
+                <h2 class="slide-title">Learner <span>Profile</span></h2>
+                <p class="slide-subtitle">Detailed demographic subgroups, dropouts, and student BMI status.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Learner Subgroups:</strong> Collect information for specialized categories including ALS learners, Muslim learners, and Indigenous Peoples (IP).</li>
+                                <li><strong>2. Special Contexts:</strong> Record displaced learners and overage learners in the school.</li>
+                                <li><strong>3. Dropout Track:</strong> Input dropout cases from both the previous and current school years.</li>
+                                <li><strong>4. BMI Status:</strong> Record nutritional status based on Body Mass Index (BMI) measurements.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/learner.gif" alt="Learner Profile Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 6: Shifting & Modality -->
+        <section class="slide-canvas" id="slide-6">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 05</span>
+                <h2 class="slide-title">Shifting &amp; <span>Modality</span></h2>
+                <p class="slide-subtitle">Schedules, shift configuration, and Emergency ADM protocols.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Shift Configuration:</strong> Check if the school follows a single-shift, full in-person setup or uses multiple shifts.</li>
+                                <li><strong>2. Modality Mapping:</strong> Map schedules for each grade level.</li>
+                                <li><strong>3. Emergency Setup:</strong> Track Alternative Delivery Modes (ADM) used during disasters, emergencies, or classroom availability constraints.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/shifting.gif" alt="Shifting Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 7: School Resources -->
+        <section class="slide-canvas" id="slide-7">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 06</span>
+                <h2 class="slide-title">School <span>Resources</span></h2>
+                <p class="slide-subtitle">Audit classrooms, ICT equipment, mobile eCarts, utilities, and WASH.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Audit Classrooms:</strong> Track classroom facilities by grade level.</li>
+                                <li><strong>2. ICT &amp; Mobile Tools:</strong> Record quantities of ICT equipment (such as computers and tablets) and mobile learning tools (eCarts).</li>
+                                <li><strong>3. Utilities &amp; Hygiene:</strong> Record utility services like electricity and internet, alongside WASH facilities (water, sanitation, and hygiene).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/resources.gif" alt="Resources Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 8: Physical Facilities -->
+        <section class="slide-canvas" id="slide-8">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 07</span>
+                <h2 class="slide-title">Physical <span>Facilities</span></h2>
+                <p class="slide-subtitle">Record buildings, rooms, dimensions, capacities, and space maps.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Inventory Structures:</strong> Record school buildings, rooms, and physical structures.</li>
+                                <li><strong>2. Dimensions &amp; Capacity:</strong> Input building inventory details, room dimensions, usage type, and seating capacity.</li>
+                                <li><strong>3. Space Map:</strong> Categorize rooms by grade level or function (instructional or non-instructional) and use the visual builder to map school spaces.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/facilities.gif" alt="Facilities Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 9: School Terrain -->
+        <section class="slide-canvas" id="slide-9">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 08</span>
+                <h2 class="slide-title">School <span>Terrain</span></h2>
+                <p class="slide-subtitle">Environmental accessibility, transport, community hazards, and threat metrics.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Accessibility Parameters:</strong> Log transport access including road conditions, lighting, and public transport availability.</li>
+                                <li><strong>2. Local Hazards:</strong> Identify nearby environmental hazards such as rivers, cliffs, or flood-prone areas.</li>
+                                <li><strong>3. Services &amp; Threats:</strong> Map community points like hospitals, barangay halls, and transport terminals, and log natural calamities experienced, alongside social or man-made threats.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/terrain.gif" alt="Terrain Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide ➔</button>
+            </div>
+        </section>
+
+        <!-- Slide 10: Infrastructure & Safety -->
+        <section class="slide-canvas" id="slide-10">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 09</span>
+                <h2 class="slide-title">Infrastructure &amp; <span>Safety</span></h2>
+                <p class="slide-subtitle">Electrical inspection, CCTV systems, emergency tools, and safety audits.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content">
+                    <div>
+                        <div style="font-size: 14px; line-height: 1.7; color: var(--text-main);">
+                            <h3 style="color: var(--primary-blue); margin-bottom: 8px; font-weight: 700; font-size: 15px;">📋 How to Complete This Section:</h3>
+                            <ul style="margin-left: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; list-style-type: disc;">
+                                <li><strong>1. Electrical Safety:</strong> Monitor electrical systems, wiring age, and inspection records. Audit the safety of power boxes, outlets, cords, and lighting.</li>
+                                <li><strong>2. Security &amp; Safety Equipment:</strong> Log active CCTV systems, emergency tools, and disaster readiness equipment (such as fire exits and flashlights).</li>
+                                <li><strong>3. Safety Item Inventory:</strong> Audit fire extinguishers, first aid kits, emergency radios, and electrical maintenance logs.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="phone-gif-container">
+                            <img src="https://raw.githubusercontent.com/maiariii/insighted-dashboard/main/safety.gif" alt="Safety Animation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">➔ Previous Slide</button>
+                <span></span>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let currentSlideNum = 1;
+        const totalSlides = 10;
+
+        // Slide tab transitions logic
+        function loadSlide(slideNum) {
+            currentSlideNum = slideNum;
+
+            // Handle Landing Page vs Presentation mode
+            if (slideNum === 1) {
+                document.body.classList.add('landing-mode');
+            } else {
+                document.body.classList.remove('landing-mode');
+            }
+
+            // Close mobile sidebar menu on select
+            document.body.classList.remove('sidebar-open');
+
+            // Update links active states
+            const links = document.querySelectorAll('.slide-link');
+            links.forEach((link) => {
+                const match = link.getAttribute('onclick').match(/\d+/);
+                if (match && parseInt(match[0]) === slideNum) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Toggle slide view canvas
+            const canvases = document.querySelectorAll('.slide-canvas');
+            canvases.forEach((canvas, idx) => {
+                if (idx + 1 === slideNum) {
+                    canvas.classList.add('active');
+                } else {
+                    canvas.classList.remove('active');
+                }
+            });
+        }
+
+        // Toggle Sidebar on mobile
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-open');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.menu-toggle-btn');
+            if (document.body.classList.contains('sidebar-open') && 
+                sidebar && !sidebar.contains(e.target) && 
+                toggleBtn && !toggleBtn.contains(e.target)) {
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+
+        function nextSlide() {
+            if (currentSlideNum < totalSlides) {
+                loadSlide(currentSlideNum + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideNum > 1) {
+                loadSlide(currentSlideNum - 1);
+            }
+        }
+    </script>
+</body>
+
+</html>
