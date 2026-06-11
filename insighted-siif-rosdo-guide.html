@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightED | SIIF Regional & Division User Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --primary-blue: #0a4b9c; /* DepEd Navy Blue */
+            --primary-blue-glow: rgba(10, 75, 156, 0.08);
+            --accent-yellow: #fadb5f; /* DepEd Yellow/Gold */
+            --accent-red: #e12b3c; /* DepEd Red */
+            --accent-green: #10b981;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(10, 75, 156, 0.08);
+            --sidebar-width: 320px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--bg-tertiary) transparent;
+        }
+
+        *::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--bg-tertiary);
+            border-radius: 20px;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            background-image: 
+                radial-gradient(circle at 5% 5%, rgba(10, 75, 156, 0.03) 0%, transparent 35%),
+                radial-gradient(circle at 95% 95%, rgba(225, 43, 60, 0.02) 0%, transparent 35%);
+            background-attachment: fixed;
+        }
+
+        /* Blueprint grid helper overlay */
+        .blueprint-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(10, 75, 156, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 75, 156, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Ambient glowing circles */
+        .glowing-orb {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 75, 156, 0.04) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            pointer-events: none;
+            top: 10%;
+            left: 15%;
+            animation: orbMove 35s infinite alternate ease-in-out;
+        }
+
+        .glowing-orb.secondary {
+            background: radial-gradient(circle, rgba(225, 43, 60, 0.035) 0%, transparent 70%);
+            top: 55%;
+            left: 60%;
+            animation: orbMoveSecondary 45s infinite alternate ease-in-out;
+        }
+
+        @keyframes orbMove {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(25vw, 15vh) scale(1.2); }
+        }
+
+        @keyframes orbMoveSecondary {
+            0% { transform: translate(0, 0) scale(1.2); }
+            100% { transform: translate(-25vw, -15vh) scale(0.95); }
+        }
+
+        /* Left Presentation Sidebar Menu */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            position: fixed;
+            left: 40px;
+            top: 40px;
+            bottom: 40px;
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 0 16px 48px rgba(10, 75, 156, 0.03);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(10, 75, 156, 0.02);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar-header:hover {
+            background: rgba(10, 75, 156, 0.06);
+        }
+
+        .sidebar-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .sidebar-header-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .sidebar-sub {
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .slides-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .slide-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .slide-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+        }
+
+        .slide-link.active {
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            border-color: rgba(10, 75, 156, 0.12);
+        }
+
+        .slide-number {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .slide-link.active .slide-number {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Sidebar Footer Banner */
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 0 0 24px 24px;
+            font-size: 10px;
+            color: var(--text-muted);
+            background: rgba(10, 75, 156, 0.01);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Presentation Viewer Main Area */
+        .presentation-viewer {
+            margin-left: calc(var(--sidebar-width) + 40px);
+            flex: 1;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            transition: margin-left 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Landing Mode (Slide 1 Active) */
+        body.landing-mode .sidebar {
+            transform: translateX(-100%);
+        }
+
+        body.landing-mode .presentation-viewer {
+            margin-left: 0;
+            padding: 40px 80px;
+        }
+
+        /* Slide Content Section Container */
+        .slide-canvas {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 16px 48px rgba(10, 75, 156, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            animation: slideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .slide-canvas.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.99) translateY(8px); 
+                filter: blur(2px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+                filter: blur(0);
+            }
+        }
+
+        .slide-canvas.fade-out {
+            display: flex !important;
+            flex-direction: column;
+            animation: slideOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideOut {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.99) translateY(-8px);
+                filter: blur(2px);
+            }
+        }
+
+        /* Slide Header & Metadata styling */
+        .slide-header {
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--bg-tertiary);
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .slide-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(10, 75, 156, 0.12);
+        }
+
+        .slide-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -0.75px;
+            line-height: 1.2;
+        }
+
+        .slide-title span {
+            color: var(--accent-red);
+        }
+
+        .slide-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .slide-body {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Custom Slides Layout grids & elements */
+        .slide-cover-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .slide-cover-layout::before {
+            content: '';
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(10, 75, 156, 0.07) 0%, transparent 70%);
+            z-index: -1;
+            top: -20px;
+            animation: pulseGlow 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.85); opacity: 0.7; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hero-big-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            color: var(--primary-blue);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            max-width: 800px;
+            margin-bottom: 12px;
+        }
+
+        .hero-big-title span {
+            color: var(--accent-red);
+        }
+
+        .hero-tagline {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+
+        .divider-red-yellow {
+            width: 180px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-blue) 33.3%, var(--accent-yellow) 33.3%, var(--accent-yellow) 66.6%, var(--accent-red) 66.6%, var(--accent-red) 100%);
+            border-radius: 20px;
+            margin: 28px auto 36px;
+        }
+
+        .slide-cover-layout p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.6;
+        }
+
+        /* 3-Column Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 8px 24px rgba(10, 75, 156, 0.02);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--primary-blue);
+            box-shadow: 0 16px 36px rgba(10, 75, 156, 0.08);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(10, 75, 156, 0.01) 100%);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-blue);
+            border-radius: 20px 20px 0 0;
+            opacity: 0.15;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Split Screen Layout */
+        .split-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .split-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Checkbox checklist list */
+        .check-list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            padding: 18px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.01);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .check-item:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 20px rgba(10, 75, 156, 0.05);
+        }
+
+        .check-item-icon {
+            color: var(--primary-blue);
+            font-size: 16px;
+            margin-top: 2px;
+        }
+
+        .check-item-text strong {
+            display: block;
+            font-size: 13.5px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .check-item-text p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Callout Box styling */
+        .callout-box {
+            background: rgba(225, 43, 60, 0.04);
+            border-left: 4px solid var(--accent-red);
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .callout-icon {
+            font-size: 20px;
+        }
+
+        .callout-content h5 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--accent-red);
+            margin-bottom: 4px;
+        }
+
+        .callout-content p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .callout-box.info {
+            background: rgba(10, 75, 156, 0.04);
+            border-left-color: var(--primary-blue);
+        }
+        
+        .callout-box.info .callout-content h5 {
+            color: var(--primary-blue);
+        }
+
+        /* Navigation Controls Bottom Bar */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-btn {
+            background: #ffffff;
+            border: 1px solid rgba(10, 75, 156, 0.15);
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-btn:hover {
+            background: rgba(10, 75, 156, 0.03);
+            border-color: rgba(10, 75, 156, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.06);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-btn.primary {
+            background: var(--primary-blue);
+            color: #ffffff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.15);
+        }
+
+        .nav-btn.primary:hover {
+            background: #083c7d;
+            border-color: #083c7d;
+            box-shadow: 0 8px 24px rgba(10, 75, 156, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle-btn {
+            display: none;
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.2);
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .menu-toggle-btn:hover {
+            background: #083c7d;
+            transform: scale(1.06) translateY(-1px);
+        }
+
+        body.landing-mode .menu-toggle-btn {
+            display: none !important;
+        }
+
+        /* Interactive Widgets Styling */
+        .widget-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(10, 75, 156, 0.02);
+        }
+
+        .widget-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .auth-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .auth-input {
+            background: var(--bg-tertiary);
+            border: 1.5px solid transparent;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .auth-input:focus {
+            border-color: var(--primary-blue);
+            background: var(--bg-secondary);
+        }
+
+        .verification-header-banner {
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .verification-header-banner.locked {
+            background: rgba(225, 43, 60, 0.06);
+            border: 1px solid rgba(225, 43, 60, 0.15);
+            color: var(--accent-red);
+        }
+
+        .verification-header-banner.unlocked {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+
+        /* Mock Dashboard Widgets */
+        .mock-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .mock-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mock-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .mock-card-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .mock-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .mock-progress-container {
+            margin-top: 12px;
+        }
+
+        .mock-progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .mock-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), #2563eb);
+            width: 75%;
+        }
+
+        .mock-progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* School Roster Table Sim */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .mock-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: left;
+            background: var(--bg-secondary);
+        }
+
+        .mock-table th {
+            background: var(--bg-tertiary);
+            padding: 10px 12px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .mock-table td {
+            padding: 12px;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge.submitted {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .badge.pending {
+            background: rgba(250, 219, 95, 0.15);
+            color: #b45309;
+        }
+
+        .badge.overdue {
+            background: rgba(225, 43, 60, 0.1);
+            color: var(--accent-red);
+        }
+
+        /* School details popup styling */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            width: 95%;
+            max-width: 580px;
+            box-shadow: 0 20px 48px rgba(10, 75, 156, 0.1);
+            animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+        }
+
+        /* Tabs inside Modal */
+        .modal-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid var(--bg-tertiary);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .modal-tab-btn {
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .modal-tab-btn.active {
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+        }
+
+        /* Division Search Card layout */
+        .division-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(10, 75, 156, 0.01);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .division-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(10, 75, 156, 0.05);
+        }
+
+        .division-info strong {
+            font-size: 14px;
+            color: var(--text-main);
+            display: block;
+        }
+
+        .division-info span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .drill-badge {
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        /* Responsive Breakpoints & Adaptability */
+        @media (max-width: 1024px) {
+            .menu-toggle-btn {
+                display: flex;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                left: 0;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+                border-right: 1px solid var(--glass-border);
+            }
+            .presentation-viewer {
+                margin-left: 0 !important;
+                padding: 24px 20px !important;
+            }
+            body.sidebar-open .sidebar {
+                transform: translateX(0);
+            }
+            body.sidebar-open .blueprint-grid {
+                z-index: 9;
+            }
+            body.sidebar-open::after {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.4);
+                backdrop-filter: blur(4px);
+                z-index: 8;
+                pointer-events: auto;
+            }
+            .slide-canvas {
+                padding: 28px 20px !important;
+                margin-top: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 24px !important;
+            }
+            .hero-big-title {
+                font-size: 32px !important;
+            }
+            .slide-subtitle {
+                font-size: 12px !important;
+            }
+            .split-content {
+                grid-template-columns: 1fr !important;
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .categories-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-btn {
+                padding: 10px 14px;
+                font-size: 11.5px;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body class="landing-mode">
+    <div class="blueprint-grid"></div>
+    <div class="glowing-orb"></div>
+    <div class="glowing-orb secondary"></div>
+
+    <button class="menu-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header" onclick="loadSlide(1)">
+            <img src="https://raw.githubusercontent.com/maiariii/insighted-guides/main/InsightED%20logo.png" class="sidebar-logo" alt="InsightED Logo">
+            <div class="sidebar-header-title">
+                <span class="sidebar-brand">Insight<span style="color: var(--accent-red);">ED</span></span>
+                <span class="sidebar-sub">SIIF RO/SDO GUIDE</span>
+            </div>
+        </div>
+
+        <nav class="slides-list">
+            <a class="slide-link" onclick="loadSlide(2)">
+                <span class="slide-number">01</span>
+                <span>Access &amp; Jurisdiction</span>
+            </a>
+            <a class="slide-link" onclick="loadSlide(3)">
+                <span class="slide-number">02</span>
+                <span>The Nexus &amp; Home Tab</span>
+            </a>
+            <a class="slide-link" onclick="loadSlide(4)">
+                <span class="slide-number">03</span>
+                <span>Divisions Tab (RO Only)</span>
+            </a>
+            <a class="slide-link" onclick="loadSlide(5)">
+                <span class="slide-number">04</span>
+                <span>Schools Tab &amp; Filters</span>
+            </a>
+            <a class="slide-link" onclick="loadSlide(6)">
+                <span class="slide-number">05</span>
+                <span>School Details &amp; Export</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span>Department of Education</span>
+            <span>SIIF Regional &amp; SDO Monitoring</span>
+        </div>
+    </aside>
+
+    <main class="presentation-viewer">
+        <!-- Slide 1: Cover -->
+        <section class="slide-canvas active" id="slide-1">
+            <div class="slide-cover-layout">
+                <div class="logo-row" style="margin-bottom: 28px;">
+                    <img src="https://raw.githubusercontent.com/maiariii/insighted-guides/main/InsightED%20logo.png" alt="InsightED Logo" style="height: 90px; width: auto; object-fit: contain;">
+                </div>
+                <h1 class="hero-big-title">SIIF Monitoring &amp;<br><span>Compliance Dashboard</span></h1>
+                <p class="hero-tagline">InsightED Web Guide for RO &amp; SDO</p>
+                <div class="divider-red-yellow"></div>
+                <p style="margin-top: 12px; line-height: 1.7;">
+                    A comprehensive walkthrough of the School Innovation &amp; Improvement Fund (SIIF) Monitoring module. Track school budget allocations, review proposed interventions, and monitor compliance with submission deadlines across your jurisdiction.
+                </p>
+            </div>
+            
+            <div class="nav-controls" style="justify-content: center;">
+                <button class="nav-btn primary" onclick="nextSlide()">Explore Monitor Guide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 2: Access & Registration -->
+        <section class="slide-canvas" id="slide-2">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 01</span>
+                <h2 class="slide-title">Registration &amp; <span>System Access</span></h2>
+                <p class="slide-subtitle">Role-based data jurisdiction access restricted using official codes.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content" style="grid-template-columns: 1.15fr 0.85fr;">
+                    <div>
+                        <div class="check-list-items" style="gap: 14px; margin-bottom: 20px;">
+                            <div class="check-item">
+                                <span class="check-item-icon">🔑</span>
+                                <div class="check-item-text">
+                                    <strong>Access Portal</strong>
+                                    <p>Navigate to the InsightEd login portal and select "Create New Account".</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">📝</span>
+                                <div class="check-item-text">
+                                    <strong>Fill up Fields</strong>
+                                    <p>Provide the necessary fields and establish a secure password.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">🛡️</span>
+                                <div class="check-item-text">
+                                    <strong>Authorization Code</strong>
+                                    <p>Input the code corresponding to your administrative level to secure proper data scope.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="callout-box">
+                            <span class="callout-icon">⚠️</span>
+                            <div class="callout-content">
+                                <h5>CAUTION</h5>
+                                <p style="font-size: 12px; line-height: 1.4;">Authorization codes are strictly confidential. Unauthorized sharing may result in data jurisdiction breaches and compromised administrative monitoring capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Authorization Code Simulator -->
+                    <div class="widget-card">
+                        <div class="widget-title">🔑 Access Authorization Sim</div>
+                        
+                        <div class="auth-input-group">
+                            <span class="auth-label">Enter Authorization Code</span>
+                            <input type="text" class="auth-input" id="auth-code" placeholder="XXXX-XXXX" oninput="validateAuthCode()">
+                        </div>
+
+                        <div class="verification-header-banner locked" id="auth-banner">
+                            <span id="auth-emoji">🔒</span>
+                            <div>
+                                <strong id="auth-title" style="font-size: 13px; display: block;">Locked</strong>
+                                <span id="auth-desc" style="font-size: 11px;">Please enter a valid RO or SDO authorization code.</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 14px; font-size: 11px; color: var(--text-muted); line-height: 1.4; border-top: 1px dashed var(--glass-border); padding-top: 10px;">
+                            <strong>Reference Codes:</strong><br>
+                            • RO Code: <code>H7V3-L5N1</code><br>
+                            • SDO Code: <code>Q9D2-R4J6</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 3: The Nexus & Home Tab -->
+        <section class="slide-canvas" id="slide-3">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 02</span>
+                <h2 class="slide-title">The Nexus &amp; <span>Home Tab</span></h2>
+                <p class="slide-subtitle">Centralized entry point and macro-level financial/compliance summaries.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content" style="grid-template-columns: 1fr 1.1fr;">
+                    <div>
+                        <div class="check-list-items" style="gap:14px; margin-bottom: 20px;">
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>The Nexus Launchpad:</strong> Primary hub for apps. Locate and click the <strong>SIIF Module card</strong> to initiate monitoring.
+                            </div>
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Total Recipients:</strong> Displays the count of eligible schools authorized to receive SIIF allocations.
+                            </div>
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Submitted Plans:</strong> Indicates the count of schools with finalized/submitted plans, along with the compliance rate.
+                            </div>
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Appropriation Progress Bar:</strong> Visually displays the percentage of the budget currently appropriated by schools.
+                            </div>
+                        </div>
+
+                        <div class="callout-box info" style="padding: 14px;">
+                            <span class="callout-icon">ℹ️</span>
+                            <div class="callout-content">
+                                <h5>Color Indicators</h5>
+                                <p style="font-size: 11.5px; line-height: 1.4;">
+                                    • <strong>Yellow Indicator:</strong> Total cumulative budget allocated to your office jurisdiction.<br>
+                                    • <strong>Blue Indicator:</strong> Total budget sum currently appropriated in submitted plans.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home Tab Simulator -->
+                    <div class="widget-card" style="display: flex; flex-direction: column; gap: 14px;">
+                        <div class="widget-title">📊 Home Tab Executive Summary</div>
+                        
+                        <div class="mock-dashboard-grid">
+                            <div class="mock-card">
+                                <div class="mock-card-title">Total Recipients</div>
+                                <div class="mock-amount">120 Schools</div>
+                                <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Eligible in jurisdiction</p>
+                            </div>
+                            <div class="mock-card">
+                                <div class="mock-card-title">Submitted Plans</div>
+                                <div class="mock-amount">90 <span style="font-size: 12px; font-weight: 500; color: var(--accent-green);">(75%)</span></div>
+                                <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Overall compliance rate</p>
+                            </div>
+                        </div>
+
+                        <div class="mock-card" style="border-left: 4px solid var(--accent-yellow);">
+                            <div class="mock-card-title" style="color: #b45309;">Total SIIF Budget (Yellow Indicator)</div>
+                            <div class="mock-amount" style="color: #b45309;">₱15,000,000.00</div>
+                        </div>
+
+                        <div class="mock-card" style="border-left: 4px solid var(--primary-blue);">
+                            <div class="mock-card-title">Total Budget Appropriated (Blue Indicator)</div>
+                            <div class="mock-amount">₱11,250,000.00</div>
+                            <div class="mock-progress-container">
+                                <div class="mock-progress-bar">
+                                    <div class="mock-progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <div class="mock-progress-labels">
+                                    <span>Appropriation Progress</span>
+                                    <strong>75%</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 4: Divisions Tab -->
+        <section class="slide-canvas" id="slide-4">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 03</span>
+                <h2 class="slide-title">Divisions Tab <span>(Regional Office Only)</span></h2>
+                <p class="slide-subtitle">Granular monitoring and dynamic jurisdiction filtering for Regional personnel.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content" style="grid-template-columns: 1.1fr 0.9fr;">
+                    <div>
+                        <div class="check-list-items" style="gap:14px; margin-bottom: 20px;">
+                            <div class="check-item">
+                                <span class="check-item-icon">🔍</span>
+                                <div class="check-item-text">
+                                    <strong>Division Search</strong>
+                                    <p>Utilize the search field at the top of the interface to rapidly locate a specific Schools Division Office (SDO).</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">📋</span>
+                                <div class="check-item-text">
+                                    <strong>Division Roster</strong>
+                                    <p>The interface displays interactive card lists containing key progress markers for each division under your regional scope.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">🔬</span>
+                                <div class="check-item-text">
+                                    <strong>Dynamic Data Drill-down</strong>
+                                    <p>Clicking any Division card updates the entire portal's scope, allowing you to view schools exactly as that SDO views them.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Divisions Tab Drilldown Sim -->
+                    <div class="widget-card">
+                        <div class="widget-title">🏢 Division Drill-down Sim</div>
+                        
+                        <div class="auth-input-group" style="margin-bottom: 12px;">
+                            <input type="text" class="auth-input" id="div-search" placeholder="Search Division..." oninput="filterDivisions()" style="padding: 8px 12px; font-size: 12px;">
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 8px;" id="division-list">
+                            <div class="division-card" onclick="drilldownDivision('NCR Division A')">
+                                <div class="division-info">
+                                    <strong>NCR Division A</strong>
+                                    <span>24 Recipient Schools</span>
+                                </div>
+                                <span class="drill-badge">Drill Down ➔</span>
+                            </div>
+                            <div class="division-card" onclick="drilldownDivision('NCR Division B')">
+                                <div class="division-info">
+                                    <strong>NCR Division B</strong>
+                                    <span>32 Recipient Schools</span>
+                                </div>
+                                <span class="drill-badge">Drill Down ➔</span>
+                            </div>
+                            <div class="division-card" onclick="drilldownDivision('NCR Division C')">
+                                <div class="division-info">
+                                    <strong>NCR Division C</strong>
+                                    <span>18 Recipient Schools</span>
+                                </div>
+                                <span class="drill-badge">Drill Down ➔</span>
+                            </div>
+                        </div>
+
+                        <div id="drill-status" class="verification-header-banner unlocked" style="margin-top: 14px; padding: 10px; font-size: 11px; display: none;">
+                            <span>🌐</span>
+                            <div>
+                                <strong id="drill-name">NCR Division A Scope</strong>
+                                <span>Dashboard filtered to division schools. <a href="javascript:void(0)" onclick="clearDrilldown()" style="color: var(--primary-blue); font-weight: 700; text-decoration: underline;">Reset</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 5: Schools Tab & Filters -->
+        <section class="slide-canvas" id="slide-5">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 04</span>
+                <h2 class="slide-title">Schools Tab &amp; <span>Advanced Filters</span></h2>
+                <p class="slide-subtitle">Primary monitoring roster equipped with status sorting and precise filters.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content" style="grid-template-columns: 0.95fr 1.05fr;">
+                    <div>
+                        <div class="check-list-items" style="gap:12px; margin-bottom: 20px;">
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Roster Views:</strong> Toggle between <strong>Table format</strong> (optimal for detailed desktop audits) and <strong>Cards format</strong> (optimized for mobile).
+                            </div>
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Status Quick Filters:</strong>
+                                <br>• <strong>All:</strong> Lists all recipient schools in jurisdiction.
+                                <br>• <strong>Submitted:</strong> Shows schools with finalized plans.
+                                <br>• <strong>Pending:</strong> Shows schools drafting their proposals.
+                                <br>• <strong>Overdue:</strong> Highlights schools missing the deadline.
+                            </div>
+                            <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
+                                <strong>Funnel Advanced Filters:</strong> Click the Funnel Icon to filter by Budget Parameters, student Beneficiary Counts, and planned Intervention Types (Remediation, Enhancement, Enrichment).
+                            </div>
+                        </div>
+                        
+                        <div class="callout-box">
+                            <span class="callout-icon">⚠️</span>
+                            <div class="callout-content">
+                                <h5>Allocation vs. Estimate</h5>
+                                <p style="font-size:12px; line-height:1.4;">Verify estimate amounts. If a school's estimate exceeds their authorized allocation, contact the school head immediately to adjust.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schools Tab Interactive Simulator -->
+                    <div class="widget-card">
+                        <div class="widget-title" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+                            <span>🏫 Jurisdictional School Roster</span>
+                            <button class="nav-btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleAdvancedFilters()">⚙️ Advanced Filters</button>
+                        </div>
+
+                        <!-- Advanced Filter Drawer simulation -->
+                        <div id="adv-filter-box" style="display:none; background: var(--bg-tertiary); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 11px;">
+                            <strong>Filter Interventions:</strong>
+                            <div style="display:flex; gap:10px; margin: 6px 0 10px;">
+                                <label><input type="checkbox" id="f-remediation" checked onchange="filterRoster()"> Remediation</label>
+                                <label><input type="checkbox" id="f-numeracy" checked onchange="filterRoster()"> Numeracy</label>
+                                <label><input type="checkbox" id="f-reading" checked onchange="filterRoster()"> Reading</label>
+                            </div>
+                            <strong>Max Budget:</strong>
+                            <input type="range" min="100000" max="300000" value="300000" id="budget-range" oninput="updateRangeLabel()" style="width:100%; margin-top:4px;">
+                            <div style="display:flex; justify-content:space-between; color: var(--text-muted); font-size: 9px; margin-top: 2px;">
+                                <span>₱100k</span>
+                                <span id="range-val">₱300k Max</span>
+                            </div>
+                        </div>
+
+                        <!-- Status buttons -->
+                        <div style="display:flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;">
+                            <button class="nav-btn primary" id="tab-all" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('all')">All</button>
+                            <button class="nav-btn" id="tab-submitted" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('submitted')">Submitted</button>
+                            <button class="nav-btn" id="tab-pending" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('pending')">Pending</button>
+                            <button class="nav-btn" id="tab-overdue" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('overdue')">Overdue</button>
+                        </div>
+
+                        <!-- Table Simulator -->
+                        <div class="table-container">
+                            <table class="mock-table">
+                                <thead>
+                                    <tr>
+                                        <th>School Name</th>
+                                        <th>Status</th>
+                                        <th>Est. vs Alloc.</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roster-tbody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 6: School Details Modal & Export -->
+        <section class="slide-canvas" id="slide-6">
+            <div class="slide-header">
+                <span class="slide-badge">Slide 05</span>
+                <h2 class="slide-title">School Details &amp; <span>Export Report</span></h2>
+                <p class="slide-subtitle">In-depth modal overlays for plan evaluation and structured reports downloading.</p>
+            </div>
+
+            <div class="slide-body">
+                <div class="split-content" style="grid-template-columns: 1.15fr 0.85fr;">
+                    <div>
+                        <div class="check-list-items" style="gap:14px; margin-bottom: 20px;">
+                            <div class="check-item">
+                                <span class="check-item-icon">🔍</span>
+                                <div class="check-item-text">
+                                    <strong>Appropriation Progress</strong>
+                                    <p>A prominent visual bar indicates the exact percentage of the school's allocated budget utilized in their proposed plan.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">📂</span>
+                                <div class="check-item-text">
+                                    <strong>Intervention Navigation</strong>
+                                    <p>Clickable internal tabs display cost summaries and grade-level beneficiary charts for each proposed intervention.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">📋</span>
+                                <div class="check-item-text">
+                                    <strong>Planned Activities Registry</strong>
+                                    <p>Presents a numbered register of all operational tasks and procurements planned by the School Head.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:20px; padding:28px; text-align:center; box-shadow:0 8px 24px rgba(10, 75, 156, 0.01); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        <span style="font-size:48px; display:block; margin-bottom:12px;">📥</span>
+                        <h4 style="font-size:15px; font-weight:800; color:var(--primary-blue); margin-bottom:6px;">Report Exporting</h4>
+                        <p style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:16px;">
+                            Click the <strong>Download Icon</strong> located at the top-right of any school details overlay to export a formalized PDF or HTML report.
+                        </p>
+                        <button class="nav-btn primary" style="font-size:11px;" onclick="openDetailsModal('Simulated School')">Open Sample School Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <span></span>
+            </div>
+        </section>
+    </main>
+
+    <!-- School Details Modal Simulator -->
+    <div class="modal-overlay" id="school-modal" onclick="closeDetailsModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title" id="m-school-name">A. Santos Elementary School</h4>
+                    <span style="font-size: 11px; color: var(--accent-green); font-weight: 700;">● Finalized &amp; Submitted</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="nav-btn" style="padding: 6px 10px; font-size:11px;" onclick="alert('Exporting PDF/HTML report...')">📥 Export</button>
+                    <button class="modal-close" onclick="closeDetailsModal(event)">&times;</button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mock-progress-container" style="margin-bottom: 20px; background: var(--bg-tertiary); padding: 12px; border-radius: 10px;">
+                <div class="mock-progress-labels" style="margin-bottom: 4px;">
+                    <span style="font-weight:700;">Allocation Appropriation</span>
+                    <strong>100%</strong>
+                </div>
+                <div class="mock-progress-bar">
+                    <div class="mock-progress-fill" style="width: 100%; background: var(--accent-green);"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size: 11px; margin-top:4px;">
+                    <span>Utilized: ₱150,000.00</span>
+                    <span>Allocation: ₱150,000.00</span>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" onclick="setModalTab('reading')">📚 Reading</button>
+                <button class="modal-tab-btn" onclick="setModalTab('numeracy')">🔢 Numeracy</button>
+                <button class="modal-tab-btn" onclick="setModalTab('remediation')">📝 Remediation</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="modal-tab-content" style="font-size: 12.5px; line-height: 1.6;">
+                <!-- Filled dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideNum = 1;
+        const totalSlides = 6;
+        let isTransitioning = false;
+
+        // Slide Navigation
+        function loadSlide(slideNum) {
+            if (isTransitioning) return;
+            const currentCanvas = document.querySelector('.slide-canvas.active');
+            
+            if (currentCanvas && parseInt(currentCanvas.id.replace('slide-', '')) !== slideNum) {
+                isTransitioning = true;
+                currentCanvas.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    currentCanvas.classList.remove('active', 'fade-out');
+                    switchSlideData(slideNum);
+                    isTransitioning = false;
+                }, 220);
+            } else {
+                switchSlideData(slideNum);
+            }
+        }
+
+        function switchSlideData(slideNum) {
+            currentSlideNum = slideNum;
+            if (slideNum === 1) {
+                document.body.classList.add('landing-mode');
+            } else {
+                document.body.classList.remove('landing-mode');
+            }
+            document.body.classList.remove('sidebar-open');
+
+            const links = document.querySelectorAll('.slide-link');
+            links.forEach((link) => {
+                const match = link.getAttribute('onclick').match(/\d+/);
+                if (match && parseInt(match[0]) === slideNum) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            const canvases = document.querySelectorAll('.slide-canvas');
+            canvases.forEach((canvas, idx) => {
+                if (idx + 1 === slideNum) {
+                    canvas.classList.add('active');
+                } else {
+                    canvas.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlideNum < totalSlides) {
+                loadSlide(currentSlideNum + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideNum > 1) {
+                loadSlide(currentSlideNum - 1);
+            }
+        }
+
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-open');
+        }
+
+        // Close sidebar on outer click
+        document.addEventListener('click', (e) => {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.menu-toggle-btn');
+            if (document.body.classList.contains('sidebar-open') && 
+                sidebar && !sidebar.contains(e.target) && 
+                toggleBtn && !toggleBtn.contains(e.target)) {
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+
+        // Slide 2: Auth Code Verification
+        function validateAuthCode() {
+            const val = document.getElementById('auth-code').value.toUpperCase().trim();
+            const banner = document.getElementById('auth-banner');
+            const emoji = document.getElementById('auth-emoji');
+            const title = document.getElementById('auth-title');
+            const desc = document.getElementById('auth-desc');
+
+            if (val === 'H7V3-L5N1') {
+                banner.className = "verification-header-banner unlocked";
+                emoji.innerText = "🔓";
+                title.innerText = "RO Access Granted";
+                desc.innerText = "Jurisdiction: Regional Office (aggregate visibility across all divisions).";
+            } else if (val === 'Q9D2-R4J6') {
+                banner.className = "verification-header-banner unlocked";
+                emoji.innerText = "🔓";
+                title.innerText = "SDO Access Granted";
+                desc.innerText = "Jurisdiction: Schools Division Office (visibility restricted to division schools).";
+            } else {
+                banner.className = "verification-header-banner locked";
+                emoji.innerText = "🔒";
+                title.innerText = "Locked";
+                desc.innerText = "Please enter a valid RO or SDO authorization code.";
+            }
+        }
+
+        // Slide 4: Division Drill Down simulation
+        function drilldownDivision(name) {
+            document.getElementById('drill-name').innerText = `${name} Scope`;
+            document.getElementById('drill-status').style.display = 'flex';
+            alert(`Simulated Action: Drilling down to view only schools under ${name}.`);
+        }
+
+        function clearDrilldown() {
+            document.getElementById('drill-status').style.display = 'none';
+        }
+
+        function filterDivisions() {
+            const val = document.getElementById('div-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.division-card');
+            cards.forEach(card => {
+                const text = card.querySelector('strong').innerText.toLowerCase();
+                if (text.includes(val)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Slide 5: Schools Roster simulation
+        let currentTab = 'all';
+        const schoolsData = [
+            { name: "A. Santos Elementary School", status: "submitted", budget: 150000, alloc: 150000, type: "reading", code: "rem" },
+            { name: "F. Balagtas High School", status: "submitted", budget: 120000, alloc: 150000, type: "numeracy", code: "num" },
+            { name: "M. Roxas Memorial School", status: "pending", budget: 80000, alloc: 150000, type: "reading", code: "rem" },
+            { name: "G. Lopez Central School", status: "overdue", budget: 0, alloc: 150000, type: "remediation", code: "rem" },
+            { name: "S. Osmeña High School", status: "submitted", budget: 145000, alloc: 150000, type: "remediation", code: "rem" }
+        ];
+
+        function toggleAdvancedFilters() {
+            const box = document.getElementById('adv-filter-box');
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function updateRangeLabel() {
+            const val = document.getElementById('budget-range').value;
+            document.getElementById('range-val').innerText = `₱${(val/1000).toFixed(0)}k Max`;
+            filterRoster();
+        }
+
+        function setRosterTab(tab) {
+            currentTab = tab;
+            const tabs = ['all', 'submitted', 'pending', 'overdue'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn.classList.add('primary');
+                } else {
+                    btn.classList.remove('primary');
+                }
+            });
+            filterRoster();
+        }
+
+        function filterRoster() {
+            const tableBody = document.getElementById('roster-tbody');
+            tableBody.innerHTML = '';
+
+            const remChecked = document.getElementById('f-remediation').checked;
+            const numChecked = document.getElementById('f-numeracy').checked;
+            const readChecked = document.getElementById('f-reading').checked;
+            const maxBudget = parseFloat(document.getElementById('budget-range').value);
+
+            const filtered = schoolsData.filter(s => {
+                if (currentTab !== 'all' && s.status !== currentTab) return false;
+                
+                // Intervention filter
+                if (s.type === 'reading' && !readChecked) return false;
+                if (s.type === 'numeracy' && !numChecked) return false;
+                if (s.type === 'remediation' && !remChecked) return false;
+
+                // Budget filter
+                if (s.budget > maxBudget) return false;
+
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No schools match these filters.</td></tr>';
+                return;
+            }
+
+            filtered.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => openDetailsModal(s.name);
+                tr.innerHTML = `
+                    <td><strong>${s.name}</strong></td>
+                    <td><span class="badge ${s.status}">${s.status}</span></td>
+                    <td>₱${s.budget.toLocaleString()} / ₱${s.alloc.toLocaleString()}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Slide 6: Modal Logic
+        function openDetailsModal(name) {
+            document.getElementById('m-school-name').innerText = name;
+            document.getElementById('school-modal').style.display = 'flex';
+            setModalTab('reading');
+        }
+
+        function closeDetailsModal(e) {
+            document.getElementById('school-modal').style.display = 'none';
+        }
+
+        const tabDetails = {
+            reading: `
+                <div style="margin-bottom:12px;">
+                    <strong>📚 Proposed Reading Intervention:</strong> Remedial Worksheets &amp; Reading Toolkits.
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span>Financial Breakdown:</span>
+                    <strong>₱60,000.00</strong>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <strong>Target Beneficiaries:</strong>
+                    <br>• Grades 1–3: 80 targeted learners.
+                </div>
+                <strong>Planned Operational Activities:</strong>
+                <ol style="margin-left: 18px; margin-top: 4px;">
+                    <li>Procurement of early grade reading assessment materials.</li>
+                    <li>Conducting localized parent-teacher worksheets training.</li>
+                </ol>
+            `,
+            numeracy: `
+                <div style="margin-bottom:12px;">
+                    <strong>🔢 Proposed Numeracy Program:</strong> Foundational Math Activity Logs.
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span>Financial Breakdown:</span>
+                    <strong>₱50,000.00</strong>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <strong>Target Beneficiaries:</strong>
+                    <br>• Grades 4–6: 65 targeted learners.
+                </div>
+                <strong>Planned Operational Activities:</strong>
+                <ol style="margin-left: 18px; margin-top: 4px;">
+                    <li>Procurement of hands-on math manipulative tools.</li>
+                    <li>Weekly math assessment logging.</li>
+                </ol>
+            `,
+            remediation: `
+                <div style="margin-bottom:12px;">
+                    <strong>📝 Proposed After-School Remediation (ARAL):</strong> Extra tutoring hours.
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span>Financial Breakdown:</span>
+                    <strong>₱40,000.00</strong>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <strong>Target Beneficiaries:</strong>
+                    <br>• Grades 7–10: 40 targeted learners.
+                </div>
+                <strong>Planned Operational Activities:</strong>
+                <ol style="margin-left: 18px; margin-top: 4px;">
+                    <li>Scheduling peer tutoring sessions.</li>
+                    <li>Procurement of study guides.</li>
+                </ol>
+            `
+        };
+
+        function setModalTab(tab) {
+            const btns = document.querySelectorAll('.modal-tab-btn');
+            btns.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tab)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            document.getElementById('modal-tab-content').innerHTML = tabDetails[tab];
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            filterRoster();
+        });
+    </script>
+</body>
+
+</html>
