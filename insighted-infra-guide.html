@@ -1506,10 +1506,140 @@
                 gap: 6px;
             }
         }
+
+        /* Slide progress bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(10, 75, 156, 0.05);
+            z-index: 1000;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-red));
+            transition: width 0.3s ease;
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--glass-border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.3s ease;
+        }
+        .keyboard-hint kbd {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-main);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        @media (max-width: 768px) {
+            .keyboard-hint {
+                display: none;
+            }
+        }
+
+        /* Sidebar Search Styles */
+        .sidebar-search-container {
+            padding: 12px 16px 8px 16px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .sidebar-search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--bg-tertiary);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .sidebar-search-input:focus {
+            border-color: var(--primary-blue);
+            background: #ffffff;
+        }
+
+        /* Keyboard Help Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 48px rgba(0,0,0,0.15);
+            animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 12px;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .modal-close:hover {
+            color: var(--accent-red);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 
 <body class="landing-mode">
+    <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBarFill"></div></div>
     <!-- Background grid -->
     <div class="blueprint-grid"></div>
     <div class="glowing-orb"></div>
@@ -1520,12 +1650,15 @@
 
     <!-- Sidebar Slide Navigation -->
     <aside class="sidebar">
-        <div class="sidebar-header" onclick="loadSlide(1)">
+        <div class="sidebar-header" onclick="window.location.href='index.html'">
             <img src="https://raw.githubusercontent.com/maiariii/insighted-guides/main/InsightED%20logo.png" alt="InsightED Logo" style="width: 38px; height: 38px; object-fit: contain; border-radius: 8px;">
             <div class="sidebar-header-title">
                 <span class="sidebar-brand">Insight<span style="color: var(--accent-red);">ED</span></span>
                 <span class="sidebar-sub">INFRASTRUCTURE GUIDES</span>
             </div>
+        </div>
+        <div class="sidebar-search-container">
+            <input type="text" id="sidebarSearch" class="sidebar-search-input" placeholder="Search slides..." oninput="filterSlides()">
         </div>
 
         <nav class="slides-list">
@@ -2121,6 +2254,11 @@
         function loadSlide(slideNum) {
             currentSlideNum = slideNum;
 
+            // Update progress bar
+            const pct = ((slideNum - 1) / (totalSlides - 1)) * 100;
+            const bar = document.getElementById('progressBarFill');
+            if (bar) bar.style.width = pct + '%';
+
             // Handle Landing Page vs Presentation mode
             if (slideNum === 1) {
                 document.body.classList.add('landing-mode');
@@ -2176,8 +2314,76 @@
         }
 
         function prevSlide() {
-            if (currentSlideNum > 1) {
-                loadSlide(currentSlideNum - 1);
+            if        // Keyboard Navigation Support & Modal handling
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === '?') {
+                e.preventDefault();
+                const modal = document.getElementById('shortcuts-modal');
+                if (modal) {
+                    const isOpen = modal.style.display === 'flex';
+                    toggleShortcutsModal(!isOpen);
+                }
+            } else if (e.key === 'Escape') {
+                toggleShortcutsModal(false);
+            }
+        });
+
+        // Touch swipe gestures support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        function handleGesture() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+        }
+        
+        document.addEventListener('touchstart', e => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        document.addEventListener('touchend', e => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, { passive: true });
+
+        // Sidebar slide filter logic
+        function filterSlides() {
+            const query = document.getElementById('sidebarSearch').value.toLowerCase().trim();
+            const links = document.querySelectorAll('.slide-link');
+            links.forEach(link => {
+                let text = link.textContent || link.innerText;
+                const numSpan = link.querySelector('.slide-number');
+                if (numSpan) {
+                    text = text.replace(numSpan.textContent || numSpan.innerText, '');
+                }
+                text = text.toLowerCase().trim();
+                if (text.includes(query)) {
+                    link.style.display = 'flex';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        }
+
+        // Toggle Keyboard Shortcuts Modal
+        function toggleShortcutsModal(show) {
+            const modal = document.getElementById('shortcuts-modal');
+            if (modal) {
+                modal.style.display = show ? 'flex' : 'none';
             }
         }
 
@@ -2244,6 +2450,44 @@
             validateGateDemo();
         });
     </script>
-</body>
+    <div class="keyboard-hint">Use <kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> to navigate (Press <kbd>?</kbd> for all shortcuts)</div>
 
+    <!-- Keyboard Shortcuts Cheat-sheet Modal -->
+    <div class="modal-overlay" id="shortcuts-modal" onclick="toggleShortcutsModal(false)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h4 class="modal-title">Keyboard Shortcuts</h4>
+                <button class="modal-close" onclick="toggleShortcutsModal(false)">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 16px 0 0 0;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 8px;">
+                        <span style="font-size: 13px; font-weight: 600;">Next Slide</span>
+                        <div><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">→</kbd><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">Space</kbd></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 8px;">
+                        <span style="font-size: 13px; font-weight: 600;">Previous Slide</span>
+                        <div><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">←</kbd></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 8px;">
+                        <span style="font-size: 13px; font-weight: 600;">Page Navigation</span>
+                        <div><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">PgUp</kbd><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">PgDn</kbd></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 8px;">
+                        <span style="font-size: 13px; font-weight: 600;">Toggle Help Menu</span>
+                        <div><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">?</kbd></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 8px;">
+                        <span style="font-size: 13px; font-weight: 600;">Close Modal / Reset</span>
+                        <div><kbd style="background: var(--bg-tertiary); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; margin-left: 4px;">Esc</kbd></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px;">
+                        <span style="font-size: 13px; font-weight: 600;">Go Back to Portal</span>
+                        <span style="font-size: 12px; color: var(--text-muted); font-weight: bold;">Click Sidebar Logo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
