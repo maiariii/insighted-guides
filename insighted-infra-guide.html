@@ -2314,7 +2314,12 @@
         }
 
         function prevSlide() {
-            if        // Keyboard Navigation Support & Modal handling
+            if (currentSlideNum > 1) {
+                loadSlide(currentSlideNum - 1);
+            }
+        }
+
+        // Keyboard Navigation Support & Modal handling
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
