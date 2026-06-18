@@ -500,7 +500,7 @@
         .split-content {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
-            gap: 36px;
+            gap: 24px;
             align-items: start;
         }
 
@@ -596,8 +596,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 32px;
-            padding-top: 20px;
+            margin-top: 24px;
+            padding-top: 14px;
             border-top: 1px solid var(--bg-tertiary);
         }
 
@@ -677,6 +677,9 @@
 
         /* Interactive Widgets Styling */
         .widget-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
@@ -689,7 +692,7 @@
             font-weight: 800;
             color: var(--primary-blue);
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -698,8 +701,47 @@
         .auth-input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .category-list-item {
+            display: block;
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 14px;
+            line-height: 1.6;
+            padding-left: 18px;
+            text-indent: -14px;
+        }
+
+        .category-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-list-item::before {
+            content: '●';
+            color: var(--accent-red);
+            font-size: 10px;
+            display: inline-block;
+            width: 10px;
+            margin-left: -18px;
+            margin-right: 8px;
+        }
+
+        /* Ensure nested lists inside category-list-item use normal bullets and spacing */
+        .category-list-item ul {
+            margin: 8px 0 0;
+            padding-left: 22px;
+            list-style-type: disc;
+            list-style-position: outside;
+        }
+
+        .category-list-item ul li {
+            margin-bottom: 8px;
+            text-indent: 0;
+            padding-left: 0;
+            line-height: 1.5;
         }
 
         .auth-label {
@@ -753,7 +795,7 @@
         .mock-dashboard-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 16px;
         }
 
         @media (max-width: 768px) {
@@ -1314,40 +1356,45 @@
                             </div>
                         </div>
 
-                        <div class="callout-box">
+                        <div class="callout-box" style="margin-bottom: 24px;">
                             <span class="callout-icon">⚠️</span>
                             <div class="callout-content">
                                 <h5>CAUTION</h5>
                                 <p style="font-size: 12px; line-height: 1.4;">Authorization codes are strictly confidential. Unauthorized sharing may result in data jurisdiction breaches and compromised administrative monitoring capabilities.</p>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Authorization Code Simulator -->
-                    <div class="widget-card">
-                        <div class="widget-title">🔑 Access Authorization Sim</div>
-                        
-                        <div class="auth-input-group">
-                            <span class="auth-label">Enter Authorization Code</span>
-                            <input type="text" class="auth-input" id="auth-code" placeholder="XXXX-XXXX" oninput="validateAuthCode()">
-                        </div>
+                        <div class="widget-card" style="margin-top: 24px;">
+                            <div class="widget-title">🔑 Access Authorization Sim</div>
+                            
+                            <div class="auth-input-group">
+                                <span class="auth-label">Enter Authorization Code</span>
+                                <input type="text" class="auth-input" id="auth-code" placeholder="XXXX-XXXX" oninput="validateAuthCode()">
+                            </div>
 
-                        <div class="verification-header-banner locked" id="auth-banner">
-                            <span id="auth-emoji">🔒</span>
-                            <div>
-                                <strong id="auth-title" style="font-size: 13px; display: block;">Locked</strong>
-                                <span id="auth-desc" style="font-size: 11px;">Please enter a valid RO or SDO authorization code.</span>
+                            <div class="verification-header-banner locked" id="auth-banner">
+                                <span id="auth-emoji">🔒</span>
+                                <div>
+                                    <strong id="auth-title" style="font-size: 13px; display: block;">Locked</strong>
+                                    <span id="auth-desc" style="font-size: 11px;">Please enter a valid RO or SDO authorization code.</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 14px; font-size: 11px; color: var(--text-muted); line-height: 1.4; border-top: 1px dashed var(--glass-border); padding-top: 10px;">
+                                <strong>Reference Codes:</strong><br>
+                                • RO Code: <code>H7V3-L5N1</code><br>
+                                • SDO Code: <code>Q9D2-R4J6</code>
                             </div>
                         </div>
+                    </div>
 
-                        <div style="margin-top: 14px; font-size: 11px; color: var(--text-muted); line-height: 1.4; border-top: 1px dashed var(--glass-border); padding-top: 10px;">
-                            <strong>Reference Codes:</strong><br>
-                            • RO Code: <code>H7V3-L5N1</code><br>
-                            • SDO Code: <code>Q9D2-R4J6</code>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background: transparent; padding: 0;">
+                        <img src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifrosdo1.gif" alt="SIIF ROSDO Access & Jurisdiction Demo" style="width:100%; max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
                 </div>
             </div>
+
+
 
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
@@ -1381,7 +1428,7 @@
                             </div>
                         </div>
 
-                        <div class="callout-box info" style="padding: 14px;">
+                        <div class="callout-box info" style="padding: 14px; margin-bottom: 24px;">
                             <span class="callout-icon">ℹ️</span>
                             <div class="callout-content">
                                 <h5>Color Indicators</h5>
@@ -1391,46 +1438,51 @@
                                 </p>
                             </div>
                         </div>
+
+                        <div class="widget-card" style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+                            <div class="widget-title">📊 Home Tab Executive Summary</div>
+                            
+                            <div class="mock-dashboard-grid">
+                                <div class="mock-card">
+                                    <div class="mock-card-title">Total Recipients</div>
+                                    <div class="mock-amount">120 Schools</div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Eligible in jurisdiction</p>
+                                </div>
+                                <div class="mock-card">
+                                    <div class="mock-card-title">Submitted Plans</div>
+                                    <div class="mock-amount">90 <span style="font-size: 12px; font-weight: 500; color: var(--accent-green);">(75%)</span></div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Overall compliance rate</p>
+                                </div>
+                            </div>
+
+                            <div class="mock-card" style="border-left: 4px solid var(--accent-yellow);">
+                                <div class="mock-card-title" style="color: #b45309;">Total SIIF Budget (Yellow Indicator)</div>
+                                <div class="mock-amount" style="color: #b45309;">₱15,000,000.00</div>
+                            </div>
+
+                            <div class="mock-card" style="border-left: 4px solid var(--primary-blue);">
+                                <div class="mock-card-title">Total Budget Appropriated (Blue Indicator)</div>
+                                <div class="mock-amount">₱11,250,000.00</div>
+                                <div class="mock-progress-container">
+                                    <div class="mock-progress-bar">
+                                        <div class="mock-progress-fill" style="width: 75%;"></div>
+                                    </div>
+                                    <div class="mock-progress-labels">
+                                        <span>Appropriation Progress</span>
+                                        <strong>75%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Home Tab Simulator -->
-                    <div class="widget-card" style="display: flex; flex-direction: column; gap: 14px;">
-                        <div class="widget-title">📊 Home Tab Executive Summary</div>
-                        
-                        <div class="mock-dashboard-grid">
-                            <div class="mock-card">
-                                <div class="mock-card-title">Total Recipients</div>
-                                <div class="mock-amount">120 Schools</div>
-                                <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Eligible in jurisdiction</p>
-                            </div>
-                            <div class="mock-card">
-                                <div class="mock-card-title">Submitted Plans</div>
-                                <div class="mock-amount">90 <span style="font-size: 12px; font-weight: 500; color: var(--accent-green);">(75%)</span></div>
-                                <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Overall compliance rate</p>
-                            </div>
-                        </div>
-
-                        <div class="mock-card" style="border-left: 4px solid var(--accent-yellow);">
-                            <div class="mock-card-title" style="color: #b45309;">Total SIIF Budget (Yellow Indicator)</div>
-                            <div class="mock-amount" style="color: #b45309;">₱15,000,000.00</div>
-                        </div>
-
-                        <div class="mock-card" style="border-left: 4px solid var(--primary-blue);">
-                            <div class="mock-card-title">Total Budget Appropriated (Blue Indicator)</div>
-                            <div class="mock-amount">₱11,250,000.00</div>
-                            <div class="mock-progress-container">
-                                <div class="mock-progress-bar">
-                                    <div class="mock-progress-fill" style="width: 75%;"></div>
-                                </div>
-                                <div class="mock-progress-labels">
-                                    <span>Appropriation Progress</span>
-                                    <strong>75%</strong>
-                                </div>
-                            </div>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background: transparent; padding: 0;">
+                        <img src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifrosdo2.gif" alt="SIIF ROSDO Nexus & Home Demo" style="width:100%; max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
                 </div>
             </div>
+
+
 
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
@@ -1472,50 +1524,55 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="widget-card">
+                            <div class="widget-title">🏢 Division Drill-down Sim</div>
+                            
+                            <div class="auth-input-group" style="margin-bottom: 12px;">
+                                <input type="text" class="auth-input" id="div-search" placeholder="Search Division..." oninput="filterDivisions()" style="padding: 8px 12px; font-size: 12px;">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px;" id="division-list">
+                                <div class="division-card" onclick="drilldownDivision('NCR Division A')">
+                                    <div class="division-info">
+                                        <strong>NCR Division A</strong>
+                                        <span>24 Recipient Schools</span>
+                                    </div>
+                                    <span class="drill-badge">Drill Down ➔</span>
+                                </div>
+                                <div class="division-card" onclick="drilldownDivision('NCR Division B')">
+                                    <div class="division-info">
+                                        <strong>NCR Division B</strong>
+                                        <span>32 Recipient Schools</span>
+                                    </div>
+                                    <span class="drill-badge">Drill Down ➔</span>
+                                </div>
+                                <div class="division-card" onclick="drilldownDivision('NCR Division C')">
+                                    <div class="division-info">
+                                        <strong>NCR Division C</strong>
+                                        <span>18 Recipient Schools</span>
+                                    </div>
+                                    <span class="drill-badge">Drill Down ➔</span>
+                                </div>
+                            </div>
+
+                            <div id="drill-status" class="verification-header-banner unlocked" style="margin-top: 14px; padding: 10px; font-size: 11px; display: none;">
+                                <span>🌐</span>
+                                <div>
+                                    <strong id="drill-name">NCR Division A Scope</strong>
+                                    <span>Dashboard filtered to division schools. <a href="javascript:void(0)" onclick="clearDrilldown()" style="color: var(--primary-blue); font-weight: 700; text-decoration: underline;">Reset</a></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Interactive Divisions Tab Drilldown Sim -->
-                    <div class="widget-card">
-                        <div class="widget-title">🏢 Division Drill-down Sim</div>
-                        
-                        <div class="auth-input-group" style="margin-bottom: 12px;">
-                            <input type="text" class="auth-input" id="div-search" placeholder="Search Division..." oninput="filterDivisions()" style="padding: 8px 12px; font-size: 12px;">
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 8px;" id="division-list">
-                            <div class="division-card" onclick="drilldownDivision('NCR Division A')">
-                                <div class="division-info">
-                                    <strong>NCR Division A</strong>
-                                    <span>24 Recipient Schools</span>
-                                </div>
-                                <span class="drill-badge">Drill Down ➔</span>
-                            </div>
-                            <div class="division-card" onclick="drilldownDivision('NCR Division B')">
-                                <div class="division-info">
-                                    <strong>NCR Division B</strong>
-                                    <span>32 Recipient Schools</span>
-                                </div>
-                                <span class="drill-badge">Drill Down ➔</span>
-                            </div>
-                            <div class="division-card" onclick="drilldownDivision('NCR Division C')">
-                                <div class="division-info">
-                                    <strong>NCR Division C</strong>
-                                    <span>18 Recipient Schools</span>
-                                </div>
-                                <span class="drill-badge">Drill Down ➔</span>
-                            </div>
-                        </div>
-
-                        <div id="drill-status" class="verification-header-banner unlocked" style="margin-top: 14px; padding: 10px; font-size: 11px; display: none;">
-                            <span>🌐</span>
-                            <div>
-                                <strong id="drill-name">NCR Division A Scope</strong>
-                                <span>Dashboard filtered to division schools. <a href="javascript:void(0)" onclick="clearDrilldown()" style="color: var(--primary-blue); font-weight: 700; text-decoration: underline;">Reset</a></span>
-                            </div>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background: transparent; padding: 0;">
+                        <img src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifrosdo3.gif" alt="SIIF ROSDO Divisions Tab Demo" style="width:100%; max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
                 </div>
             </div>
+
+
 
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
@@ -1540,74 +1597,78 @@
                             </div>
                             <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
                                 <strong>Status Quick Filters:</strong>
-                                <br>• <strong>All:</strong> Lists all recipient schools in jurisdiction.
-                                <br>• <strong>Submitted:</strong> Shows schools with finalized plans.
-                                <br>• <strong>Pending:</strong> Shows schools drafting their proposals.
-                                <br>• <strong>Overdue:</strong> Highlights schools missing the deadline.
+                                <ul style="margin: 8px 0 0; padding-left: 18px; list-style-type: disc; list-style-position: outside;">
+                                    <li style="margin-bottom: 8px;"><strong>All:</strong> Lists all recipient schools in jurisdiction.</li>
+                                    <li style="margin-bottom: 8px;"><strong>Submitted:</strong> Shows schools with finalized plans.</li>
+                                    <li style="margin-bottom: 8px;"><strong>Pending:</strong> Shows schools drafting their proposals.</li>
+                                    <li><strong>Overdue:</strong> Highlights schools missing the deadline.</li>
+                                </ul>
                             </div>
                             <div class="category-list-item" style="font-size: 13px; line-height: 1.5;">
                                 <strong>Funnel Advanced Filters:</strong> Click the Funnel Icon to filter by Budget Parameters, student Beneficiary Counts, and planned Intervention Types (Remediation, Enhancement, Enrichment).
                             </div>
                         </div>
                         
-                        <div class="callout-box">
+                        <div class="callout-box" style="margin-bottom: 24px;">
                             <span class="callout-icon">⚠️</span>
                             <div class="callout-content">
                                 <h5>Allocation vs. Estimate</h5>
                                 <p style="font-size:12px; line-height:1.4;">Verify estimate amounts. If a school's estimate exceeds their authorized allocation, contact the school head immediately to adjust.</p>
                             </div>
                         </div>
+
+                        <div class="widget-card" style="margin-top: 24px;">
+                            <div class="widget-title" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>🏫 Jurisdictional School Roster</span>
+                                <button class="nav-btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleAdvancedFilters()">⚙️ Advanced Filters</button>
+                            </div>
+
+                            <div id="adv-filter-box" style="display:none; background: var(--bg-tertiary); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 11px;">
+                                <strong>Filter Interventions:</strong>
+                                <div style="display:flex; gap:10px; margin: 6px 0 10px;">
+                                    <label><input type="checkbox" id="f-remediation" checked onchange="filterRoster()"> Remediation</label>
+                                    <label><input type="checkbox" id="f-numeracy" checked onchange="filterRoster()"> Numeracy</label>
+                                    <label><input type="checkbox" id="f-reading" checked onchange="filterRoster()"> Reading</label>
+                                </div>
+                                <strong>Max Budget:</strong>
+                                <input type="range" min="100000" max="300000" value="300000" id="budget-range" oninput="updateRangeLabel()" style="width:100%; margin-top:4px;">
+                                <div style="display:flex; justify-content:space-between; color: var(--text-muted); font-size: 9px; margin-top: 2px;">
+                                    <span>₱100k</span>
+                                    <span id="range-val">₱300k Max</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;">
+                                <button class="nav-btn primary" id="tab-all" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('all')">All</button>
+                                <button class="nav-btn" id="tab-submitted" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('submitted')">Submitted</button>
+                                <button class="nav-btn" id="tab-pending" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('pending')">Pending</button>
+                                <button class="nav-btn" id="tab-overdue" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('overdue')">Overdue</button>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="mock-table">
+                                    <thead>
+                                        <tr>
+                                            <th>School Name</th>
+                                            <th>Status</th>
+                                            <th>Est. vs Alloc.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="roster-tbody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Schools Tab Interactive Simulator -->
-                    <div class="widget-card">
-                        <div class="widget-title" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
-                            <span>🏫 Jurisdictional School Roster</span>
-                            <button class="nav-btn" style="padding: 4px 8px; font-size: 10px;" onclick="toggleAdvancedFilters()">⚙️ Advanced Filters</button>
-                        </div>
-
-                        <!-- Advanced Filter Drawer simulation -->
-                        <div id="adv-filter-box" style="display:none; background: var(--bg-tertiary); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 11px;">
-                            <strong>Filter Interventions:</strong>
-                            <div style="display:flex; gap:10px; margin: 6px 0 10px;">
-                                <label><input type="checkbox" id="f-remediation" checked onchange="filterRoster()"> Remediation</label>
-                                <label><input type="checkbox" id="f-numeracy" checked onchange="filterRoster()"> Numeracy</label>
-                                <label><input type="checkbox" id="f-reading" checked onchange="filterRoster()"> Reading</label>
-                            </div>
-                            <strong>Max Budget:</strong>
-                            <input type="range" min="100000" max="300000" value="300000" id="budget-range" oninput="updateRangeLabel()" style="width:100%; margin-top:4px;">
-                            <div style="display:flex; justify-content:space-between; color: var(--text-muted); font-size: 9px; margin-top: 2px;">
-                                <span>₱100k</span>
-                                <span id="range-val">₱300k Max</span>
-                            </div>
-                        </div>
-
-                        <!-- Status buttons -->
-                        <div style="display:flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap;">
-                            <button class="nav-btn primary" id="tab-all" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('all')">All</button>
-                            <button class="nav-btn" id="tab-submitted" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('submitted')">Submitted</button>
-                            <button class="nav-btn" id="tab-pending" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('pending')">Pending</button>
-                            <button class="nav-btn" id="tab-overdue" style="padding: 6px 10px; font-size: 11px;" onclick="setRosterTab('overdue')">Overdue</button>
-                        </div>
-
-                        <!-- Table Simulator -->
-                        <div class="table-container">
-                            <table class="mock-table">
-                                <thead>
-                                    <tr>
-                                        <th>School Name</th>
-                                        <th>Status</th>
-                                        <th>Est. vs Alloc.</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="roster-tbody">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background: transparent; padding: 0;">
+                        <img src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifrosdo4.gif" alt="SIIF ROSDO Schools Tab Demo" style="width:100%; max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
                 </div>
             </div>
+
+
 
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>

@@ -366,14 +366,16 @@
             display: flex;
             justify-content: center;
             overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 6px 24px rgba(10, 75, 156, 0.08);
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent;
         }
 
         .demo-gif {
             width: 100%;
             display: block;
-            border-radius: 16px;
+            border-radius: 0;
+            background: transparent;
         }
 
         /* Custom Slides Layout grids & elements */
@@ -953,7 +955,7 @@
             background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 24px;
+            padding: 36px 24px 24px 24px;
             position: relative;
         }
 
@@ -1008,6 +1010,18 @@
             border-radius: 12px;
             font-size: 10px;
             font-weight: 700;
+        }
+
+        .mock-badge-below {
+            display: inline-block;
+            background: var(--primary-blue-glow);
+            color: var(--primary-blue);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 8px;
+            margin-bottom: 8px;
         }
 
         .mock-chips-container {
@@ -1463,52 +1477,54 @@
             </div>
             
             <div class="slide-body">
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-card-title">🔑 No Registration</div>
-                        <div class="feature-card-desc">Your credentials are synced automatically from the main InsightED platform. Use official DepEd credentials to log in.</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-card-title">🌐 Portal Path</div>
-                        <div class="feature-card-desc">Navigate to the InsightED Nexus Portal. Find the "Other Services" area and click the "SIIF Portal" icon.</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-card-title">📊 Real-Time Overview</div>
-                        <div class="feature-card-desc">Dashboard showcases total fiscal allocation, utilized balance, remaining budget, and interactive intervention summaries.</div>
-                    </div>
-                </div>
-
-                <!-- Interactive Dashboard Simulator -->
-                <h3 style="font-size:14px; text-transform:uppercase; color:var(--primary-blue); font-weight:800; margin-top: 20px;">Interactive Dashboard Simulator</h3>
-                <div class="mock-dashboard-grid">
-                    <div class="mock-card">
-                        <div class="mock-card-title">Financial Status (FY 2026)</div>
-                        <div class="mock-amount">₱250,000.00</div>
-                        <div class="mock-progress-container">
-                            <div class="mock-progress-bar">
-                                <div class="mock-progress-fill" style="width: 40%"></div>
+                <div class="split-content" style="grid-template-columns: 1.15fr 0.85fr; align-items: flex-start;">
+                    <div>
+                        <div class="features-grid" style="display:flex; flex-direction:column; gap:24px;">
+                            <div class="feature-card">
+                                <div class="feature-card-title">🔑 No Registration</div>
+                                <div class="feature-card-desc">Your credentials are synced automatically from the main InsightED platform. Use official DepEd credentials to log in.</div>
                             </div>
-                            <div class="mock-progress-labels">
-                                <span>Utilized: ₱100,000.00</span>
-                                <span>Remaining: ₱150,000.00</span>
+                            <div class="feature-card">
+                                <div class="feature-card-title">🌐 Portal Path</div>
+                                <div class="feature-card-desc">Navigate to the InsightED Nexus Portal. Find the "Other Services" area and click the "SIIF Portal" icon.</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-card-title">📊 Real-Time Overview</div>
+                                <div class="feature-card-desc">Dashboard showcases total fiscal allocation, utilized balance, remaining budget, and interactive intervention summaries.</div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Dashboard Simulator -->
+                        <h3 style="font-size:14px; text-transform:uppercase; color:var(--primary-blue); font-weight:800; margin-top: 20px;">Interactive Dashboard Simulator</h3>
+                        <div class="mock-dashboard-grid">
+                            <div class="mock-card">
+                                <div class="mock-card-title">Financial Status (FY 2026)</div>
+                                <div class="mock-amount">₱250,000.00</div>
+                                <div class="mock-progress-container">
+                                    <div class="mock-progress-bar">
+                                        <div class="mock-progress-fill" style="width: 40%"></div>
+                                    </div>
+                                    <div class="mock-progress-labels">
+                                        <span>Utilized: ₱100,000.00</span>
+                                        <span>Remaining: ₱150,000.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mock-card">
+                                <div class="mock-card-title">Planned Interventions</div>
+                                <div class="mock-badge-below">60% of Allocation</div>
+                                <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Learners Targeted: <strong>185 Beneficiaries</strong></p>
+                                <div class="mock-chips-container">
+                                    <div class="mock-chip" onclick="showDashboardIntervention('Reading Intervention', 'Grade 1 to 3', 'Target: 80 Learners<br>Budget Estimate: ₱60,000.00<br>Standardized learning toolkits and remedial reading worksheets.')">📚 Reading</div>
+                                    <div class="mock-chip" onclick="showDashboardIntervention('Numeracy Enhancement', 'Grade 4 to 6', 'Target: 65 Learners<br>Budget Estimate: ₱50,000.00<br>Mathematics activity logs and conceptual diagnostic cards.')">🔢 Numeracy</div>
+                                    <div class="mock-chip" onclick="showDashboardIntervention('Remediation (ARAL)', 'Grade 7 to 10', 'Target: 40 Learners<br>Budget Estimate: ₱40,000.00<br>Structured after-school remedial sessions focused on foundational skills.')">📝 Remediation</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mock-card">
-                        <div class="mock-badge-top-right">60% of Allocation</div>
-                        <div class="mock-card-title">Planned Interventions</div>
-                        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Learners Targeted: <strong>185 Beneficiaries</strong></p>
-                        <div class="mock-chips-container">
-                            <div class="mock-chip" onclick="showDashboardIntervention('Reading Intervention', 'Grade 1 to 3', 'Target: 80 Learners<br>Budget Estimate: ₱60,000.00<br>Standardized learning toolkits and remedial reading worksheets.')">📚 Reading</div>
-                            <div class="mock-chip" onclick="showDashboardIntervention('Numeracy Enhancement', 'Grade 4 to 6', 'Target: 65 Learners<br>Budget Estimate: ₱50,000.00<br>Mathematics activity logs and conceptual diagnostic cards.')">🔢 Numeracy</div>
-                            <div class="mock-chip" onclick="showDashboardIntervention('Remediation (ARAL)', 'Grade 7 to 10', 'Target: 40 Learners<br>Budget Estimate: ₱40,000.00<br>Structured after-school remedial sessions focused on foundational skills.')">📝 Remediation</div>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background:transparent; padding:0;">
+                        <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh1.gif" alt="SIIF SH Dashboard Demo" style="max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
-                </div>
-
-                <!-- App Demo GIF -->
-                <div class="demo-gif-wrapper">
-                    <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh1.gif" alt="SIIF SH Dashboard Demo">
                 </div>
             </div>
 
@@ -1526,40 +1542,40 @@
             </div>
 
             <div class="slide-body">
-                <div class="split-content" style="grid-template-columns: 1.1fr 0.9fr;">
-                    <div class="check-list-items">
-                        <div class="check-item">
-                            <span class="check-item-icon">⏳</span>
-                            <div class="check-item-text">
-                                <strong>Strict Deadline Enforcement</strong>
-                                <p>The system operates under a firm timeline prominently displayed. After the deadline passes, the Hub automatically switches to a read-only lock.</p>
+                <div class="split-content" style="grid-template-columns: 1.3fr 0.7fr; align-items: flex-start;">
+                    <div>
+                        <div class="check-list-items">
+                            <div class="check-item">
+                                <span class="check-item-icon">⏳</span>
+                                <div class="check-item-text">
+                                    <strong>Strict Deadline Enforcement</strong>
+                                    <p>The system operates under a firm timeline prominently displayed. After the deadline passes, the Hub automatically switches to a read-only lock.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">🔒</span>
+                                <div class="check-item-text">
+                                    <strong>Sequential Locking System</strong>
+                                    <p>Each step builds on the previous one. Confirming one step unlocks the next block, ensuring logical progress and data consistency.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <span class="check-item-icon">✍️</span>
+                                <div class="check-item-text">
+                                    <strong>Modify Mode</strong>
+                                    <p>Click the "Modify Hub" button or navigate directly to the Forms tab to initialize or revise drafts before final submission.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="check-item">
-                            <span class="check-item-icon">🔒</span>
-                            <div class="check-item-text">
-                                <strong>Sequential Locking System</strong>
-                                <p>Each step builds on the previous one. Confirming one step unlocks the next block, ensuring logical progress and data consistency.</p>
-                            </div>
-                        </div>
-                        <div class="check-item">
-                            <span class="check-item-icon">✍️</span>
-                            <div class="check-item-text">
-                                <strong>Modify Mode</strong>
-                                <p>Click the "Modify Hub" button or navigate directly to the Forms tab to initialize or revise drafts before final submission.</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        <div class="callout-box info">
+                        <div class="callout-box info" style="margin-top: 24px; margin-bottom: 24px;">
                             <span class="callout-icon">ℹ️</span>
                             <div class="callout-content">
                                 <h5>Step-by-Step Flow</h5>
                                 <p style="font-size:12.5px; line-height:1.5;">You must complete the Planning Hub in sequence:<br><strong>Step 1</strong>: Interventions &rarr; <strong>Step 2</strong>: Beneficiaries &rarr; <strong>Step 3</strong>: Activities &rarr; <strong>Step 4</strong>: Budget Estimates.</p>
                             </div>
                         </div>
-                        <div class="callout-box">
+                        <div class="callout-box" style="margin-top: 24px;">
                             <span class="callout-icon">⚠️</span>
                             <div class="callout-content">
                                 <h5>Submission Rule</h5>
@@ -1567,9 +1583,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="demo-gif-wrapper">
-                    <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh2.gif" alt="SIIF SH Planning Hub Demo">
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background:transparent; padding:0;">
+                        <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh2.gif" alt="SIIF SH Planning Hub Demo" style="max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
+                    </div>
                 </div>
             </div>
 
@@ -1587,32 +1603,35 @@
             </div>
 
             <div class="slide-body">
-                <div class="staircase-flow">
-                    <div class="stair-step">
-                        <span class="stair-number">1</span>
-                        <div class="stair-text">
-                            <strong>Step 1: Select Interventions</strong>
-                            <span style="display:block; margin-top:4px; line-height:1.4;">Pick the specific innovation programs you want to run by checking their cards. For Remediation (ARAL), identify the target subjects. Review summaries, type <strong>CONFIRM</strong>, and save to unlock Step 2.</span>
+                <div class="split-content" style="grid-template-columns: 1.3fr 0.7fr; align-items: flex-start;">
+                    <div>
+                        <div class="staircase-flow">
+                            <div class="stair-step">
+                                <span class="stair-number">1</span>
+                                <div class="stair-text">
+                                    <strong>Step 1: Select Interventions</strong>
+                                    <span style="display:block; margin-top:4px; line-height:1.4;">Pick the specific innovation programs you want to run by checking their cards. For Remediation (ARAL), identify the target subjects. Review summaries, type <strong>CONFIRM</strong>, and save to unlock Step 2.</span>
+                                </div>
+                            </div>
+                            <div class="stair-step">
+                                <span class="stair-number">2</span>
+                                <div class="stair-text">
+                                    <strong>Step 2: Define Beneficiaries</strong>
+                                    <span style="display:block; margin-top:4px; line-height:1.4;">Input exact targeted learner counts, cleanly grouped by Key Stage (e.g., KS1: K-3, KS2: 4-6) and specific Grade Levels. Tally, type <strong>CONFIRM</strong>, and save to unlock Step 3.</span>
+                                </div>
+                            </div>
+                            <div class="stair-step">
+                                <span class="stair-number">3</span>
+                                <div class="stair-text">
+                                    <strong>Step 3: Map Out Activities</strong>
+                                    <span style="display:block; margin-top:4px; line-height:1.4;">Tick standardized choices aligned with school policies (e.g., SIP-AIP Aligned Activities, Action Research, or utilization of leftover balances). Use "Others" for custom entries. Type <strong>CONFIRM</strong> and save to proceed.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="stair-step">
-                        <span class="stair-number">2</span>
-                        <div class="stair-text">
-                            <strong>Step 2: Define Beneficiaries</strong>
-                            <span style="display:block; margin-top:4px; line-height:1.4;">Input exact targeted learner counts, cleanly grouped by Key Stage (e.g., KS1: K-3, KS2: 4-6) and specific Grade Levels. Tally, type <strong>CONFIRM</strong>, and save to unlock Step 3.</span>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background:transparent; padding:0;">
+                        <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh3.gif" alt="SIIF SH Steps 1-3 Demo" style="max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
-                    <div class="stair-step">
-                        <span class="stair-number">3</span>
-                        <div class="stair-text">
-                            <strong>Step 3: Map Out Activities</strong>
-                            <span style="display:block; margin-top:4px; line-height:1.4;">Tick standardized choices aligned with school policies (e.g., SIP-AIP Aligned Activities, Action Research, or utilization of leftover balances). Use "Others" for custom entries. Type <strong>CONFIRM</strong> and save to proceed.</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- App Demo GIF -->
-                <div class="demo-gif-wrapper">
-                    <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh3.gif" alt="SIIF SH Steps 1-3 Demo">
                 </div>
             </div>
 
@@ -1630,7 +1649,7 @@
             </div>
 
             <div class="slide-body">
-                <div class="split-content" style="grid-template-columns: 1fr 1.1fr;">
+                <div class="split-content" style="grid-template-columns: 1.2fr 0.8fr; align-items:flex-start;">
                     <div>
                         <div class="check-list-items" style="gap:0;">
                             <div style="padding: 12px 0; border-bottom: 1px solid var(--bg-tertiary);">
@@ -1654,53 +1673,53 @@
                                 <p style="font-size: 11.5px;">You must adjust estimates downward until the total cost fits within official limits to save or submit.</p>
                             </div>
                         </div>
+
+                        <div class="budget-card" style="margin-top:18px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                                <h4 style="font-size: 13px; font-weight:800; color:var(--primary-blue); text-transform:uppercase;">Interactive Budget Estimator</h4>
+                                <span style="font-size:11px; background:#f1f5f9; padding:2px 8px; border-radius:10px; font-weight:700;">Limit: ₱150,000</span>
+                            </div>
+
+                            <div class="verification-header-banner unlocked" id="budget-demo-banner" style="margin-bottom: 16px; padding: 12px;">
+                                <span id="budget-demo-emoji">🔓</span>
+                                <div>
+                                    <strong id="budget-demo-title" style="font-size:12.5px; display:block;">Safe to Proceed</strong>
+                                    <span id="budget-demo-desc" style="font-size:10px;">Plan cost is within the allocation limit.</span>
+                                </div>
+                            </div>
+
+                            <div class="budget-row">
+                                <label>Reading Intervention</label>
+                                <div class="budget-input-wrapper">
+                                    <span>₱</span>
+                                    <input type="number" class="budget-input" id="b-reading" value="40000" oninput="calculateBudgetDemo()">
+                                </div>
+                            </div>
+                            <div class="budget-row">
+                                <label>Numeracy Enhancement</label>
+                                <div class="budget-input-wrapper">
+                                    <span>₱</span>
+                                    <input type="number" class="budget-input" id="b-numeracy" value="50000" oninput="calculateBudgetDemo()">
+                                </div>
+                            </div>
+                            <div class="budget-row">
+                                <label>Remediation (ARAL)</label>
+                                <div class="budget-input-wrapper">
+                                    <span>₱</span>
+                                    <input type="number" class="budget-input" id="b-remediation" value="30000" oninput="calculateBudgetDemo()">
+                                </div>
+                            </div>
+
+                            <div style="border-top: 1.5px dashed var(--glass-border); margin-top: 12px; padding-top: 10px; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:12px; font-weight:700; color:var(--text-muted);">Total Cost Estimate:</span>
+                                <strong style="font-size:15px; color:var(--primary-blue);" id="budget-total-label">₱120,000.00</strong>
+                            </div>
+                        </div>
+
                     </div>
-
-                    <!-- Interactive Budget Estimator Widget -->
-                    <div class="budget-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                            <h4 style="font-size: 13px; font-weight:800; color:var(--primary-blue); text-transform:uppercase;">Interactive Budget Estimator</h4>
-                            <span style="font-size:11px; background:#f1f5f9; padding:2px 8px; border-radius:10px; font-weight:700;">Limit: ₱150,000</span>
-                        </div>
-
-                        <div class="verification-header-banner unlocked" id="budget-demo-banner" style="margin-bottom: 16px; padding: 12px;">
-                            <span id="budget-demo-emoji">🔓</span>
-                            <div>
-                                <strong id="budget-demo-title" style="font-size:12.5px; display:block;">Safe to Proceed</strong>
-                                <span id="budget-demo-desc" style="font-size:10px;">Plan cost is within the allocation limit.</span>
-                            </div>
-                        </div>
-
-                        <div class="budget-row">
-                            <label>Reading Intervention</label>
-                            <div class="budget-input-wrapper">
-                                <span>₱</span>
-                                <input type="number" class="budget-input" id="b-reading" value="40000" oninput="calculateBudgetDemo()">
-                            </div>
-                        </div>
-                        <div class="budget-row">
-                            <label>Numeracy Enhancement</label>
-                            <div class="budget-input-wrapper">
-                                <span>₱</span>
-                                <input type="number" class="budget-input" id="b-numeracy" value="50000" oninput="calculateBudgetDemo()">
-                            </div>
-                        </div>
-                        <div class="budget-row">
-                            <label>Remediation (ARAL)</label>
-                            <div class="budget-input-wrapper">
-                                <span>₱</span>
-                                <input type="number" class="budget-input" id="b-remediation" value="30000" oninput="calculateBudgetDemo()">
-                            </div>
-                        </div>
-
-                        <div style="border-top: 1.5px dashed var(--glass-border); margin-top: 12px; padding-top: 10px; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:12px; font-weight:700; color:var(--text-muted);">Total Cost Estimate:</span>
-                            <strong style="font-size:15px; color:var(--primary-blue);" id="budget-total-label">₱120,000.00</strong>
-                        </div>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background:transparent; padding:0; margin-top:12px;">
+                        <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh4.gif" alt="SIIF SH Budget Estimation Demo" style="max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
-                </div>
-                <div class="demo-gif-wrapper">
-                    <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh4.gif" alt="SIIF SH Budget Estimation Demo">
                 </div>
             </div>
 
@@ -1718,7 +1737,7 @@
             </div>
 
             <div class="slide-body">
-                <div class="split-content" style="grid-template-columns: 1.2fr 0.8fr;">
+                <div class="split-content" style="grid-template-columns: 1.2fr 0.8fr; align-items:flex-start;">
                     <div>
                         <p style="font-size:14px; color:var(--text-muted); line-height:1.6; margin-bottom:20px;">
                             After ensuring all four steps in the Planning Hub are marked as confirmed with green labels:
@@ -1737,17 +1756,18 @@
                                 <div style="font-size:13px; color:var(--text-muted); line-height:1.5;">Hit the Submit button. The plan locks permanently for division level review.</div>
                             </div>
                         </div>
+
+                        <div class="proposal-card" style="background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:20px; padding:24px; text-align:center; box-shadow:0 8px 24px rgba(10, 75, 156, 0.01); margin-top:18px;">
+                            <span style="font-size:48px; display:block; margin-bottom:12px;">✅</span>
+                            <h4 style="font-size:15px; font-weight:800; color:var(--primary-blue); margin-bottom:6px;">Proposal Complete</h4>
+                            <p style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:16px;">Once submitted, the system logs the timestamp and locks the submission file from further local modifications.</p>
+                            <button class="nav-btn primary" style="margin:0 auto; font-size:11px;" onclick="alert('Demo: Plan submitted successfully!')">Mock Submit Button</button>
+                        </div>
                     </div>
 
-                    <div style="background:var(--bg-secondary); border:1px solid var(--glass-border); border-radius:20px; padding:24px; text-align:center; box-shadow:0 8px 24px rgba(10, 75, 156, 0.01);">
-                        <span style="font-size:48px; display:block; margin-bottom:12px;">✅</span>
-                        <h4 style="font-size:15px; font-weight:800; color:var(--primary-blue); margin-bottom:6px;">Proposal Complete</h4>
-                        <p style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:16px;">Once submitted, the system logs the timestamp and locks the submission file from further local modifications.</p>
-                        <button class="nav-btn primary" style="margin:0 auto; font-size:11px;" onclick="alert('Demo: Plan submitted successfully!')">Mock Submit Button</button>
+                    <div style="display:flex; justify-content:center; align-items:flex-start; background:transparent; padding:0; margin-top:12px;">
+                        <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh5.gif" alt="SIIF SH Proposal Submission Demo" style="max-width:360px; border-radius:0; box-shadow:none; background:transparent;">
                     </div>
-                </div>
-                <div class="demo-gif-wrapper">
-                    <img class="demo-gif" src="https://raw.githubusercontent.com/maiariii/insighted-gif/main/Video%20GIF/siifsh5.gif" alt="SIIF SH Proposal Submission Demo">
                 </div>
             </div>
 
