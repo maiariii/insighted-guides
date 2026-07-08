@@ -497,6 +497,7 @@
         .portal-card.variant-schoolhead::before { background: var(--accent-yellow); }
         .portal-card.variant-rosdo::before { background: var(--accent-green); }
         .portal-card.variant-sh::before { background: #8b5cf6; }
+        .portal-card.variant-recruitment::before { background: #f97316; }
 
         .card-top {
             margin-bottom: 24px;
@@ -525,6 +526,7 @@
         .portal-card.variant-schoolhead .card-badge { background: rgba(250, 219, 95, 0.2); color: #856404; }
         .portal-card.variant-rosdo .card-badge { background: rgba(16, 185, 129, 0.08); color: var(--accent-green); }
         .portal-card.variant-sh .card-badge { background: rgba(139, 92, 246, 0.08); color: #8b5cf6; }
+        .portal-card.variant-recruitment .card-badge { background: rgba(249, 115, 22, 0.08); color: #f97316; }
 
         .card-icon-container {
             width: 48px;
@@ -548,6 +550,7 @@
         .portal-card.variant-schoolhead .card-icon-container { background: rgba(250, 219, 95, 0.15); color: #b58900; }
         .portal-card.variant-rosdo .card-icon-container { background: rgba(16, 185, 129, 0.05); color: var(--accent-green); }
         .portal-card.variant-sh .card-icon-container { background: rgba(139, 92, 246, 0.05); color: #8b5cf6; }
+        .portal-card.variant-recruitment .card-icon-container { background: rgba(249, 115, 22, 0.05); color: #f97316; }
 
         .card-title {
             font-size: 20px;
@@ -593,6 +596,7 @@
         .portal-card.variant-schoolhead .card-feature-item::before { color: #b58900; }
         .portal-card.variant-rosdo .card-feature-item::before { color: var(--accent-green); }
         .portal-card.variant-sh .card-feature-item::before { color: #8b5cf6; }
+        .portal-card.variant-recruitment .card-feature-item::before { color: #f97316; }
 
         .card-footer {
             margin-top: 24px;
@@ -624,6 +628,7 @@
         .portal-card.variant-schoolhead:hover .launch-btn { background: #dca100; color: #ffffff; border-color: #dca100; box-shadow: 0 4px 12px rgba(220, 161, 0, 0.2); }
         .portal-card.variant-rosdo:hover .launch-btn { background: var(--accent-green); color: #ffffff; border-color: var(--accent-green); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
         .portal-card.variant-sh:hover .launch-btn { background: #8b5cf6; color: #ffffff; border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); }
+        .portal-card.variant-recruitment:hover .launch-btn { background: #f97316; color: #ffffff; border-color: #f97316; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2); }
 
         .no-results {
             grid-column: 1 / -1;
@@ -801,6 +806,29 @@
                         <li class="card-feature-item">Proposal Checklist</li>
                         <li class="card-feature-item">Document Submissions</li>
                         <li class="card-feature-item">Application Status Flow</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <button class="launch-btn">
+                        Launch Guide
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </a>
+
+            <!-- Recruitment Process Flow Guide -->
+            <a href="insighted-recruitment-guide.html" class="portal-card variant-recruitment" data-tags="recruitment sca process hrmo nosca open positions application profile scoring screen hrmpsb merit promotion DO-007 DO-009" data-categories="hr sdo-ro">
+                <div class="card-top">
+                    <div class="card-meta">
+                        <span class="card-badge">Recruitment</span>
+                        <div class="card-icon-container">🎯</div>
+                    </div>
+                    <h2 class="card-title">SCA Recruitment Guide</h2>
+                    <p class="card-description">Comprehensive workflow for uploading vacancies, setting CSC qualifications, scoring, and moving applicants through stages.</p>
+                    <ul class="card-features">
+                        <li class="card-feature-item">NOSCA Vacancy Ingestion</li>
+                        <li class="card-feature-item">Applicant PDS Profiles</li>
+                        <li class="card-feature-item">DO 007/009 s. 2023 Scoring</li>
                     </ul>
                 </div>
                 <div class="card-footer">
