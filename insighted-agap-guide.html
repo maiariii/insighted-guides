@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InsightED | SCA Recruitment Process Guide</title>
+    <title>InsightED | AGAP Portal User Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -262,11 +262,10 @@
             border: 1px solid var(--glass-border);
             border-radius: 28px;
             padding: 48px;
-            box-shadow: 0 16px 48px rgba(10, 75, 156, 0.03);
+            box-shadow: 0 16px 48px rgba(8, 49, 95, 0.03);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: none;
-            animation: slideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -277,19 +276,30 @@
         .slide-canvas.active {
             display: flex;
             flex-direction: column;
+            animation: slideInDefault 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes slideIn {
-            0% { 
-                opacity: 0; 
-                transform: scale(0.985) translateY(12px); 
-                filter: blur(4px);
-            }
-            100% { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
-                filter: blur(0);
-            }
+        .slide-canvas.active.slide-next {
+            animation: slideInNext 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .slide-canvas.active.slide-prev {
+            animation: slideInPrev 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideInDefault {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInNext {
+            0% { opacity: 0; transform: translateX(24px); filter: blur(3px); }
+            100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
+        @keyframes slideInPrev {
+            0% { opacity: 0; transform: translateX(-24px); filter: blur(3px); }
+            100% { opacity: 1; transform: translateX(0); filter: blur(0); }
         }
 
         /* Slide Header & Metadata styling */
@@ -590,7 +600,7 @@
             margin-top: 2px;
         }
 
-        .check-item-text strong {
+        .check-item-text > strong {
             display: block;
             font-size: 13.5px;
             color: var(--text-main);
@@ -1091,10 +1101,10 @@
     <!-- Presentation Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header" onclick="window.location.href='index.html'">
-            <img src="InsightED logo.png" alt="InsightED Logo" class="sidebar-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\' viewBox=\'0 0 100 100\' fill=\'%230a4b9c\'><rect width=\'100\' height=\'100\' rx=\'15\'/><text x=\'50\' y=\'60\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\'>IE</text></svg>'">
+            <img src="InsightED%20logo.png" alt="InsightED Logo" class="sidebar-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\' viewBox=\'0 0 100 100\' fill=\'%230a4b9c\'><rect width=\'100\' height=\'100\' rx=\'15\'/><text x=\'50\' y=\'60\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\'>IE</text></svg>'">
             <div class="sidebar-header-title">
                 <span class="sidebar-brand">Insight<span style="color: var(--accent-red);">ED</span></span>
-                <span class="sidebar-sub">Recruitment Manual</span>
+                <span class="sidebar-sub">AGAP Portal Manual</span>
             </div>
         </div>
 
@@ -1105,23 +1115,23 @@
         <nav class="slides-list">
             <a class="slide-link" onclick="loadSlide(2)">
                 <span class="slide-number">01</span>
-                <span>NOSCA Upload & Open Jobs</span>
+                <span>Ingest & Open Vacancy (Steps 1-2)</span>
             </a>
             <a class="slide-link" onclick="loadSlide(3)">
                 <span class="slide-number">02</span>
-                <span>Vacancies & QS Standards</span>
+                <span>Candidate Application (Step 3)</span>
             </a>
             <a class="slide-link" onclick="loadSlide(4)">
                 <span class="slide-number">03</span>
-                <span>PDS Profile Registration</span>
+                <span>Initial Evaluation (Steps 4-6)</span>
             </a>
             <a class="slide-link" onclick="loadSlide(5)">
                 <span class="slide-number">04</span>
-                <span>DO 007/009 s. 2023 Scoring</span>
+                <span>Assessment & CAR (Steps 7-9)</span>
             </a>
             <a class="slide-link" onclick="loadSlide(6)">
                 <span class="slide-number">05</span>
-                <span>Pipeline & Deliberations</span>
+                <span>Selection & Letter (Steps 10-11)</span>
             </a>
         </nav>
 
@@ -1138,47 +1148,39 @@
         <section class="slide-canvas active" id="slide-1">
             <div class="slide-cover-layout">
                 <div class="logo-row">
-                    <img src="InsightED logo.png" alt="InsightED Logo" style="height: 80px; width: auto; object-fit: contain;" onerror="this.src='https://raw.githubusercontent.com/maiariii/insighted-guides/main/InsightED%20logo.png'">
+                    <img src="InsightED%20logo.png" alt="InsightED Logo" style="height: 80px; width: auto; object-fit: contain;">
                 </div>
-                <h1 class="hero-big-title">Insight<span style="color: var(--accent-red);">ED</span> SCA Recruitment<br><span>Process Flow</span></h1>
-                <p class="hero-tagline">InsightED System Ingestion and Screening Workflows</p>
+                <h1 class="hero-big-title">Insight<span style="color: var(--accent-red);">ED</span> AGAP Portal</h1>
+                <p class="hero-tagline">InsightED Web Portal</p>
                 <div class="divider-red-yellow"></div>
-                <p>Interactive guide for the InsightED Recruitment and Selection module. Learn about NOSCA uploads, vacancy publishing, DO 007/009 s. 2023 scoring, and HRMPSB candidate screening.</p>
+                <p>Interactive guide for the AGAP Portal. Learn about the complete SDO and RO recruitment process flow, including vacancy creation, initial evaluation reviews, candidate assessments, comparative rankings, and appointment confirmations.</p>
             </div>
             <div class="nav-controls" style="justify-content: center;">
                 <button class="nav-btn primary" onclick="nextSlide()">Explore User Guide →</button>
             </div>
         </section>
 
-        <!-- Slide 2: NOSCA Upload & Open Positions Creation -->
+        <!-- Slide 2: Ingest & Open Vacancies (Steps 1 & 2) -->
         <section class="slide-canvas" id="slide-2">
             <div class="slide-header">
-                <h2 class="slide-title">NOSCA Upload & <span>Vacancy Creation</span></h2>
-                <p class="slide-subtitle">How HRMOs ingest plantilla positions and map CSC qualification standards.</p>
+                <h2 class="slide-title">Ingest & Open Vacancy: <span>Steps 1 – 2</span></h2>
+                <p class="slide-subtitle">Importing scanned plantilla NOSCA documents and publishing vacancies.</p>
             </div>
-
             <div class="slide-body">
                 <div class="split-content">
                     <div class="check-list-items">
                         <div class="check-item">
                             <span class="check-item-icon">📤</span>
                             <div class="check-item-text">
-                                <strong>HRMO NOSCA Ingestion</strong>
-                                <p>The HRMO uploads the NOSCA document into InsightED. The system automatically reads and extracts: the NOSCA reference, authorized position/item, office or unit assignment, salary grade (SG), and vacancy reference details.</p>
+                                <strong>1. Upload the NOSCA to the System</strong>
+                                <p>Navigate to the <strong>Vacancies</strong> tab, then click the <strong>Add Vacancy</strong> button to open the upload modal. Upload the official scanned Plantilla or NOSCA document. The system parser automatically scans the document to extract plantilla item details, office assignments, and Salary Grades (SG) in real-time.</p>
                             </div>
                         </div>
                         <div class="check-item">
-                            <span class="check-item-icon">🛡️</span>
+                            <span class="check-item-icon">🔄</span>
                             <div class="check-item-text">
-                                <strong>Central Office Qualifications (CSC Res. 26000920)</strong>
-                                <p>Job Descriptions (JDs) and Qualification Standards (QS) are NOT uploaded by HRMOs. Instead, they are centrally managed and automatically linked using the CSC-approved qualification requirements (Education, Training, Experience, and Eligibility).</p>
-                            </div>
-                        </div>
-                        <div class="check-item">
-                            <span class="check-item-icon">📅</span>
-                            <div class="check-item-text">
-                                <strong>Publication Compliance</strong>
-                                <p>Created open positions are set to Draft, Open, or Screening. Publication periods automatically synchronize with the CS Form 9 revised 2025 submitted to the CSC.</p>
+                                <strong>2. Open the Vacancy to Accept Applications</strong>
+                                <p>On the Vacancies ledger list, click the action toggle button in the row to change the posting status to <strong>Open for Application</strong> (turns into a green badge). This publishes the vacancy to the external applicant portal to permit submissions.</p>
                             </div>
                         </div>
                     </div>
@@ -1186,103 +1188,41 @@
                     <div class="mock-ui-window">
                         <div class="mock-ui-header">
                             <div class="mock-dots"><div class="mock-dot red"></div><div class="mock-dot yellow"></div><div class="mock-dot green"></div></div>
-                            <span class="mock-ui-title">NOSCA Ingestion</span>
+                            <span class="mock-ui-title">Ingestion & Posting Status</span>
                         </div>
                         <div class="mock-ui-body">
                             <div class="mock-field">
-                                <span class="mock-label">Reference ID</span>
-                                <span class="mock-value">NOSCA-2026-R4A-0921</span>
+                                <span class="mock-label">Item Number</span>
+                                <span class="mock-value">OSEC-DECSB-ADOF5-540018-2024</span>
                             </div>
                             <div class="mock-field">
-                                <span class="mock-label">Extracted Position</span>
-                                <span class="mock-value">Administrative Officer V</span>
-                            </div>
-                            <div class="mock-field">
-                                <span class="mock-label">Salary Grade (SG)</span>
-                                <span class="mock-value">SG 18 - ₱48,930/mo</span>
-                            </div>
-                            <div class="mock-field">
-                                <span class="mock-label">QS Rule Status</span>
-                                <span class="mock-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green);">Linked to CSC Database</span>
+                                <span class="mock-label">Posting Status</span>
+                                <span class="mock-badge" style="background: rgba(22, 163, 74, 0.1); color: var(--accent-green);">Open for Application</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
                 <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
             </div>
         </section>
 
-        <!-- Slide 3: Managing Vacancies (HRMO View) -->
+        <!-- Slide 3: Candidate Applications (Step 3) -->
         <section class="slide-canvas" id="slide-3">
             <div class="slide-header">
-                <h2 class="slide-title">Vacancies & <span>QS Standards</span></h2>
-                <p class="slide-subtitle">The HRMO Dashboard interface for tracking vacancy statuses and applicant counts.</p>
+                <h2 class="slide-title">Candidate Application: <span>Step 3</span></h2>
+                <p class="slide-subtitle">How applicants search open roles and submit verified credentials.</p>
             </div>
-
-            <div class="slide-body">
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4 class="feature-card-title">📁 Source File Ledger</h4>
-                        <p class="feature-card-desc">HRMOs can trace back any position to its original uploaded NOSCA source file for auditing and verification purposes.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-card-title">🔍 Qualification Tracker</h4>
-                        <p class="feature-card-desc">Provides a side-by-side view of the position's Job Description, CSC qualifications, and specific required documentary attachments.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-card-title">📊 Application Metrics</h4>
-                        <p class="feature-card-desc">Real-time counts showing: active applicants, pending reviews, hiring/development purposes, and current recruitment stages.</p>
-                    </div>
-                </div>
-
-                <div class="callout-box">
-                    <div class="callout-icon">💡</div>
-                    <div class="callout-content">
-                        <h5>Position Status Matrix</h5>
-                        <p>Positions advance through state markers: <strong>Draft</strong> (initial setup) → <strong>Open</strong> (accepting applications) → <strong>Screening</strong> (HR paper review) → <strong>Shortlisted</strong> (top candidates forwarded) → <strong>Closed/Filled</strong> (hiring finalized).</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="nav-controls">
-                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
-                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
-            </div>
-        </section>
-
-        <!-- Slide 4: Applicant Registration & Profile -->
-        <section class="slide-canvas" id="slide-4">
-            <div class="slide-header">
-                <h2 class="slide-title">PDS Profile <span>Registration</span></h2>
-                <p class="slide-subtitle">Reusable PDS-style records that simplify applying to multiple vacancies.</p>
-            </div>
-
             <div class="slide-body">
                 <div class="split-content">
                     <div class="check-list-items">
                         <div class="check-item">
                             <span class="check-item-icon">📝</span>
                             <div class="check-item-text">
-                                <strong>PDS & CS Form No. 212 Profiling</strong>
-                                <p>Applicants register and set up a reusable profile containing standard Personal Data Sheet (PDS) and Work Experience Sheet fields: Personal info, Contact, Education, Training hours, Work history, and Eligibility.</p>
-                            </div>
-                        </div>
-                        <div class="check-item">
-                            <span class="check-item-icon">📁</span>
-                            <div class="check-item-text">
-                                <strong>Document Attachment Vault</strong>
-                                <p>Upload civil service certificates, board ratings, transcripts (TOR), and performance evaluations (IPCR) directly to the profile vault once.</p>
-                            </div>
-                        </div>
-                        <div class="check-item">
-                            <span class="check-item-icon">🔗</span>
-                            <div class="check-item-text">
-                                <strong>Multi-Vacancy Applications</strong>
-                                <p>Apply to one or multiple vacancies across published batches. Each application is scored and evaluated independently against that specific position's requirements.</p>
+                                <strong>3. Applicants Submit Applications</strong>
+                                <p>Candidates register through the external portal, select the target open plantilla item number, and fill out their online Personal Data Sheets (PDS) along with uploading required credentials (certificates, license cards) before the deadline.</p>
                             </div>
                         </div>
                     </div>
@@ -1290,179 +1230,148 @@
                     <div class="mock-ui-window">
                         <div class="mock-ui-header">
                             <div class="mock-dots"><div class="mock-dot red"></div><div class="mock-dot yellow"></div><div class="mock-dot green"></div></div>
-                            <span class="mock-ui-title">PDS Profile Vault</span>
+                            <span class="mock-ui-title">Applicant Submission Workspace</span>
                         </div>
-                        <div class="mock-ui-body" style="font-size: 12px; gap: 8px;">
-                            <div style="border-bottom: 1px solid var(--bg-tertiary); padding-bottom: 6px;">
-                                <strong>Juana Dela Cruz</strong><br>
-                                <span style="font-size: 10px; color: var(--text-muted);">Applicant ID: APP-90182</span>
-                            </div>
-                            <div>
-                                <strong>Education:</strong> Bachelor of Secondary Education (Maj: English)
-                            </div>
-                            <div>
-                                <strong>Eligibility:</strong> LET Passer (Rating: 84.50%)
-                            </div>
-                            <div>
-                                <strong>Experience:</strong> 3 Years Teaching Experience
-                            </div>
-                            <div>
-                                <strong>Training:</strong> 24 Hours Relevant Pedagogy Seminar
+                        <div class="mock-ui-body">
+                            <div class="mock-field">
+                                <span class="mock-label">Attached PDS</span>
+                                <span class="mock-value" style="color: var(--accent-green);">PDS_Cruz_Iris.pdf (Uploaded)</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
                 <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
             </div>
         </section>
 
-        <!-- Slide 5: System Scoring & Interactive Sandbox -->
+        <!-- Slide 4: Initial Evaluation & Promotion (Steps 4 – 6) -->
+        <section class="slide-canvas" id="slide-4">
+            <div class="slide-header">
+                <h2 class="slide-title">Initial Evaluation: <span>Steps 4 – 6</span></h2>
+                <p class="slide-subtitle">Vetting candidate parameters, setting statuses, and automatic promotion.</p>
+            </div>
+            <div class="slide-body">
+                <div class="split-content">
+                    <div class="check-list-items">
+                        <div class="check-item">
+                            <span class="check-item-icon">📋</span>
+                            <div class="check-item-text">
+                                <strong>4. Conduct the Initial Evaluation Review</strong>
+                                <p>Navigate to the <strong>Applications</strong> tab, select the applicant's row, and review their Education, Experience, Training, and Eligibility parameters side-by-side with Civil Service (CS) minimum standards.</p>
+                            </div>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-item-icon">⚙️</span>
+                            <div class="check-item-text">
+                                <strong>5. Mark Meets-Qualification Applicants as Qualified</strong>
+                                <p>Assign qualification standard checkmarks. Candidates meeting all requirements are marked as **Qualified** (green badge). Fails trigger *Disqualified*, and incomplete folders are set to *Excluded*.</p>
+                            </div>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-item-icon">⚡</span>
+                            <div class="check-item-text">
+                                <strong>6. Automatically Forward to Assessment Stage</strong>
+                                <p>Upon marking an applicant as <strong>Qualified</strong>, the system's pipeline engine automatically routes them to the next evaluation phase—the **Assessment Stage**—where they instantly appear on the assessment board list.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mock-ui-window">
+                        <div class="mock-ui-header">
+                            <div class="mock-dots"><div class="mock-dot red"></div><div class="mock-dot yellow"></div><div class="mock-dot green"></div></div>
+                            <span class="mock-ui-title">Initial Evaluation Workspace</span>
+                        </div>
+                        <div class="mock-ui-body" style="font-size: 11px;">
+                            <strong>Iris Cruz - School Nurse II</strong>
+                            <div style="margin-top: 6px; display:flex; justify-content:space-between;">
+                                <span>Bachelor of Science in Nursing:</span>
+                                <span style="color: var(--accent-green); font-weight:700;">Meets Minimum</span>
+                            </div>
+                            <div style="margin-top: 4px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>Screening Status:</span>
+                                <span class="mock-badge" style="background: rgba(22, 163, 74, 0.1); color: var(--accent-green);">Qualified</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
+                <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </section>
+
+        <!-- Slide 5: Assessment Ratings & CAR Generation (Steps 7 – 9) -->
         <section class="slide-canvas" id="slide-5">
             <div class="slide-header">
-                <h2 class="slide-title">System Scoring <span>& Criteria</span></h2>
-                <p class="slide-subtitle">Automated scoring mechanisms based on DepEd DO No. 007 and DO No. 009, series of 2023.</p>
+                <h2 class="slide-title">Candidate Assessment & CAR: <span>Steps 7 – 9</span></h2>
+                <p class="slide-subtitle">Entering scores, checking ranks under Rule-of-Five, exporting files, and submitting to SDO/RO.</p>
             </div>
-
             <div class="slide-body">
-                <p style="font-size: 13px; color: var(--text-muted);">InsightED automatically grades applicants by mapping their PDS profile metrics against the position's Qualification Standards (QS). <em>Note: System scores are advisory and support, rather than replace, HRMO review.</em></p>
-                
-                <div class="simulator-card">
-                    <div style="font-size: 15px; font-weight: 800; color: var(--primary-blue); margin-bottom: 12px; border-bottom: 1px solid var(--glass-border); padding-bottom: 6px;">
-                        ⚙️ DO 007/009 s. 2023 Scoring Sandbox
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4 class="feature-card-title">🪜 7. HRMO Conducts Assessment & Assigns Ratings</h4>
+                        <p class="feature-card-desc">Navigate to the <strong>Assessment</strong> tab. Select candidate rows to input scores for exams, interviews (BEI), work simulation (WST), and IPCR performance. The system automatically computes the **Overall Scorefit** percentage.</p>
                     </div>
-                    
-                    <div class="sim-grid">
-                        <div class="sim-group">
-                            <span class="sim-label">Education Match Level</span>
-                            <select id="sim-edu" class="sim-select" onchange="calculateScore()">
-                                <option value="0">Below Min. Requirement (0 pts)</option>
-                                <option value="15" selected>Minimum Requirement Met (15 pts)</option>
-                                <option value="20">Higher Degree / Specialization (20 pts)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="sim-group">
-                            <span class="sim-label">Experience Increments</span>
-                            <select id="sim-exp" class="sim-select" onchange="calculateScore()">
-                                <option value="0">Below Min. Experience (0 pts)</option>
-                                <option value="15" selected>Minimum Experience Met (15 pts)</option>
-                                <option value="20">1-2 Years Above Min (20 pts)</option>
-                                <option value="25">3+ Years Above Min (25 pts)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">Training Hours Match</span>
-                            <select id="sim-trn" class="sim-select" onchange="calculateScore()">
-                                <option value="0">No Relevant Training (0 pts)</option>
-                                <option value="8" selected>Min. Training Hours Met (8 pts)</option>
-                                <option value="10">Double the Min. Hours (10 pts)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">Eligibility / Board Ratings</span>
-                            <select id="sim-elg" class="sim-select" onchange="calculateScore()">
-                                <option value="0">No CSC/PRC License Uploaded (0 pts)</option>
-                                <option value="10" selected>Valid license & Certs Uploaded (10 pts)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">IPCR Performance Rating</span>
-                            <select id="sim-perf" class="sim-select" onchange="calculateScore()">
-                                <option value="5">Satisfactory / VS (5 pts)</option>
-                                <option value="10" selected>Outstanding (10 pts)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">Potential (WST, WE, BEI)</span>
-                            <select id="sim-pot" class="sim-select" onchange="calculateScore()">
-                                <option value="10">Basic Performance (10 pts)</option>
-                                <option value="15" selected>Satisfactory Assessment (15 pts)</option>
-                                <option value="20">Exceptional Assessment (20 pts)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">Document completeness</span>
-                            <select id="sim-complete" class="sim-select" onchange="calculateScore()">
-                                <option value="yes" selected>Complete (Yes)</option>
-                                <option value="no">Incomplete Documents (No)</option>
-                            </select>
-                        </div>
-
-                        <div class="sim-group">
-                            <span class="sim-label">Minimum QS Match</span>
-                            <select id="sim-qs-match" class="sim-select" onchange="calculateScore()">
-                                <option value="yes" selected>Meets Minimum QS (Yes)</option>
-                                <option value="no">Does Not Meet Minimum QS (No)</option>
-                            </select>
-                        </div>
+                    <div class="feature-card">
+                        <h4 class="feature-card-title">📄 8. Generate & Download the CAR</h4>
+                        <p class="feature-card-desc">Check the automated rankings. Verify the top 5 candidates have the green <strong>Rule of 5</strong> badge. Click **Download CAR** in the Actions card to export the final Excel rankings sheet.</p>
                     </div>
-
-                    <div class="sim-results">
-                        <div class="sim-score-display">
-                            <span class="sim-label" style="margin-right: 8px;">Simulated Score Fit:</span>
-                            <span id="simScore" class="sim-big-score">73</span>
-                            <span style="font-size: 14px; font-weight: 700; color: var(--text-muted); margin-left: 2px;">/ 100</span>
-                        </div>
-                        <div id="simStatus" class="sim-status-badge qualified">Qualified</div>
+                    <div class="feature-card">
+                        <h4 class="feature-card-title">📤 9. Submit CAR to Appointing Authority</h4>
+                        <p class="feature-card-desc">Forward the downloaded CAR Excel spreadsheet and the candidates' verified qualification portfolios to the Appointing Authority (SDO/RO chief) for executive vetting.</p>
                     </div>
                 </div>
             </div>
-
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
                 <button class="nav-btn primary" onclick="nextSlide()">Next Slide →</button>
             </div>
         </section>
 
-        <!-- Slide 6: Screening & Pipeline Deliberations -->
+        <!-- Slide 6: Selection & Letters of Appointment (Steps 10 & 11) -->
         <section class="slide-canvas" id="slide-6">
             <div class="slide-header">
-                <h2 class="slide-title">Pipeline & <span>HRMO Deliberation</span></h2>
-                <p class="slide-subtitle">Filtering applicants, resolving evaluations, and sending automated scheduling alerts.</p>
+                <h2 class="slide-title">Selection & Appointment: <span>Steps 10 – 11</span></h2>
+                <p class="slide-subtitle">Appointing Authority review, confirming selections, and generating appointment letters.</p>
             </div>
-
             <div class="slide-body">
-                <div class="blocks-grid">
-                    <div class="block-card">
-                        <div class="block-badge-num">1</div>
-                        <div class="block-content">
-                            <h4>Paper Screening Statuses</h4>
-                            <p>Applicants are categorized as: <strong>Qualified</strong> (meets QS, complete documents), <strong>Disqualified</strong> (does not meet minimum QS), or <strong>Excluded</strong> (incomplete documents/missed deadline).</p>
+                <div class="split-content">
+                    <div class="check-list-items">
+                        <div class="check-item">
+                            <span class="check-item-icon">⚖️</span>
+                            <div class="check-item-text">
+                                <strong>10. Appointing Authority Reviews CAR & Selects Applicant</strong>
+                                <p>The Appointing Authority reviews the candidate profiles, overall scores, and evaluator remarks listed on the CAR report, and selects the applicant to be appointed to fill the plantilla vacancy.</p>
+                            </div>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-item-icon">⭐</span>
+                            <div class="check-item-text">
+                                <strong>11. HRMO Prepares Letter of Appointment</strong>
+                                <p>Navigate to the <strong>Appointment</strong> tab. Select the appointee's row and click **Confirm Appointment** to lock the candidate to the plantilla item. Download and print the generated official **Letter of Appointment**.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="block-card">
-                        <div class="block-badge-num">2</div>
-                        <div class="block-content">
-                            <h4>Smart Filtering & Query</h4>
-                            <p>Compare candidates instantly by training hours, relevant experience, board ratings, score ranges, and documentation completeness scores.</p>
+
+                    <div class="mock-ui-window">
+                        <div class="mock-ui-header">
+                            <div class="mock-dots"><div class="mock-dot red"></div><div class="mock-dot yellow"></div><div class="mock-dot green"></div></div>
+                            <span class="mock-ui-title">Appointment Confirmed</span>
                         </div>
-                    </div>
-                    <div class="block-card">
-                        <div class="block-badge-num">3</div>
-                        <div class="block-content">
-                            <h4>HRMPSB Deliberation</h4>
-                            <p>System displays comparative assessment results. Appointing authority approves final selection, logging overrides, reviewers, timestamps, and comments.</p>
-                        </div>
-                    </div>
-                    <div class="block-card">
-                        <div class="block-badge-num">4</div>
-                        <div class="block-content">
-                            <h4>Email & In-App Alerts</h4>
-                            <p>Advancing applicants triggers automated email/mobile schedules for WST, WE, or BEI. Selected candidates receive congratulatory offers, while others receive regret notices.</p>
+                        <div class="mock-ui-body" style="font-size: 11px;">
+                            <strong>Confirmed Appointee:</strong>
+                            <div style="background: var(--bg-tertiary); padding: 6px; border-radius: 6px; margin-top: 4px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>Iris Cruz</span>
+                                <span class="mock-badge" style="background: rgba(22, 163, 74, 0.1); color: var(--accent-green); font-size: 8px;">Appointed</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="nav-controls">
                 <button class="nav-btn" onclick="prevSlide()">← Previous Slide</button>
                 <span></span>
@@ -1517,6 +1426,7 @@
 
         // Slide tab transitions logic
         function loadSlide(slideNum) {
+            const direction = slideNum > currentSlideNum ? 'slide-next' : (slideNum < currentSlideNum ? 'slide-prev' : '');
             currentSlideNum = slideNum;
 
             // Update progress bar
@@ -1548,7 +1458,10 @@
             // Toggle slide view canvas
             const canvases = document.querySelectorAll('.slide-canvas');
             canvases.forEach((canvas, idx) => {
+                canvas.classList.remove('slide-next', 'slide-prev');
+                
                 if (idx + 1 === slideNum) {
+                    if (direction) canvas.classList.add(direction);
                     canvas.classList.add('active');
                 } else {
                     canvas.classList.remove('active');
@@ -1666,7 +1579,7 @@
             const qsMatch = document.getElementById('sim-qs-match').value;
             
             const total = edu + exp + trn + elg + perf + pot;
-            document.getElementById('simScore').innerText = total;
+            document.getElementById('simScore').innerText = total.toFixed(2) + '%';
 
             const statusBadge = document.getElementById('simStatus');
             
